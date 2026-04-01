@@ -5,7 +5,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <stdlib.h>
-#include "../mlx/mlx.h"
+#include "mlx/mlx.h"
 
 #define _USE_MATH_DEFINES
 #include <math.h>
@@ -47,7 +47,7 @@ struct s_vars{
 	double scale_h;
 	double scale_w;
 	t_greed greed;
-	void **p;
+	int f;
 };
 
 typedef struct s_controller{
@@ -58,10 +58,11 @@ typedef struct s_controller{
 
 int		f_close(t_controller *cont);
 int		event_key(int key, t_controller* con);
+int		render_loop(void* core_);
+void	zoom(int a, t_controller* core);
 
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
 void 	vars_init(t_vars *vars, t_controller* control);
-void 	f_ax(double x, int a, t_vars* vars);
 void	f_ax_plus_b(double x_, double a, double b, t_vars* vars);
 void	f_sin_x(double x_, t_vars*vars, t_controller* con);
 void	f_cos_x(double x_, t_vars *vars);
@@ -72,9 +73,8 @@ void	f_spirale_archimede(double tour, double a_, double b, t_vars* vars);
 void 	f_spirale_log(double tour,double a, double b, t_vars* vars);
 void	f_ellipse(double x_, double y_, double a, double b, t_vars* vars);
 void	f_spirale_hyperbolique(double tour,double a, t_vars* vars);
-void	f_ax2(double x_, double a, t_vars* vars);
 void 	f_ax2_puls_bx_plus_c(double x_, double a, double b, double c, t_vars* vars);
-void	f_exp_base(double x_, double c, t_vars *vars);
+void	f_a_power_x(double x_, double c, t_vars *vars);
 void	f_exp_canon_simple(double x_, double a, double b, double c, t_vars *vars);
 void	f_exp_canon(double x_, double a, double b, double c, double h, double k, t_vars *vars);
 
