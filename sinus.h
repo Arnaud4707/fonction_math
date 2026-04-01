@@ -37,7 +37,9 @@ typedef struct s_greed {
 	double scale_y;
 }	t_greed;
 
-typedef struct s_vars {
+typedef struct s_vars t_vars;
+struct s_vars{
+	
 	void* win;
 	t_data* img;
 	int height;
@@ -45,7 +47,8 @@ typedef struct s_vars {
 	double scale_h;
 	double scale_w;
 	t_greed greed;
-}	t_vars;
+	void **p;
+};
 
 typedef struct s_controller{
 	void* mlx;
@@ -74,10 +77,39 @@ void 	f_ax2_puls_bx_plus_c(double x_, double a, double b, double c, t_vars* vars
 void	f_exp_base(double x_, double c, t_vars *vars);
 void	f_exp_canon_simple(double x_, double a, double b, double c, t_vars *vars);
 void	f_exp_canon(double x_, double a, double b, double c, double h, double k, t_vars *vars);
+
 void	f_log_base(double x_, double c, t_vars *vars);
 void	f_asymptote(double x_, double a, double b, double c, double d, t_vars *vars);
 void	f_spirale_asymptote(double tour,double a, double b, double c, t_vars* vars);
-void	f_diff_ax(double x_, t_vars *vars);
+
+
+/**
+ * @file  	utils.c
+ * 
+ * @brief 	Fonction differentiel y'= a y => g(x) = C * e^ax
+ *
+ * En partant de g(0) = n, g = y' et n = ay, n etant connue.
+ * Sachant que e^x est la seul solution de y' = y.
+ * Sachant que la dérivée de (e^u)' est u' * e^u.
+ * On obtien le developpement suivent:
+ * 	y' = ay => (e^u)' = u' * e^u
+ * 	y' = a * e^ax
+ * 
+ * 	n = a * e^a0
+ * 	n = a * 1
+ * 
+ * @param  x_ 	la valeur de la coordonée x avec laquelle on va commencé
+ * à appliquer la fonction obtenue. Elle est incrémenté de 0.01 jusqu'a x < 50.
+ * @param  a 	la forme de l'equation differentiel y' = ay
+ * 
+ * @author Arnaud Mugisha <amugisha6@gmail.com>
+ * 
+ * @version 1.0
+ * 
+ * @date 2026
+ */
+void	f_diff_ax(double x_, double a, t_vars *vars);
 void	f_clothoide(double x_, double y_, double k, t_vars *vars);
+void	f_diff_ax_plus_b(double x_, double a, double b, t_vars *vars);
 
 #endif

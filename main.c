@@ -11,7 +11,6 @@ int main(void)
 	// control.tars = malloc(sizeof(t_vars));
 	// vars_init(control.tars, &control);
 
-
 	// f_ax(1, 1, control.vars);
 	// f_ax_plus_b(0, -2, -2, control.vars);
 	// f_sin_x(-20, control.vars, &control); //2 win
@@ -31,8 +30,23 @@ int main(void)
 	// f_exp_canon(-4, 2, -1, 2, 3, 1, control.vars);
 	// f_ax2(-9.99, 0.5, control.vars);
 	// f_ax2_puls_bx_plus_c(-9.99, -3, 1.3, 0, control.vars);
-	// f_diff_ax(0, control.vars);
-	f_clothoide(3, 3, 1, control.vars);
+	// f_diff_ax(0, 1, control.vars);
+	// f_diff_ax(0, 0.5, control.vars);
+	f_diff_ax(-10, 3, control.vars);
+	// f_diff_ax_plus_b(0, 1, 0.5, control.vars);
+	// f_diff_ax_plus_b(0, 0.7, 0.4, control.vars);
+	// f_diff_ax_plus_b(0, 0.1, -0.7, control.vars);
+	// f_diff_ax(-50, -0.5, control.vars);
+	// f_clothoide(3, 3, 1, control.vars);
+
+	for (int i = 0; i < control.vars->height; i++){
+
+		for (int j = 0; j < control.vars->width; j++){
+
+			if (i == (control.vars->height / 2) || j == (control.vars->width / 2))
+				my_mlx_pixel_put(control.vars->img, j, i, 0x00000000);
+		}
+	}
 
 	mlx_hook(control.vars->win, ON_DESTROY, (1L >> 0), f_close, &control);
 	mlx_hook(control.vars->win, ON_KEYDOWN, (1L << 0), event_key, &control);

@@ -1,0 +1,7 @@
+<map id="s_vars" name="s_vars">
+<area shape="rect" id="Node000001" title=" " alt="" coords="53,93,117,119"/>
+<area shape="rect" id="Node000002" href="$structs__data.html" title=" " alt="" coords="5,5,71,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="53,41,81,92,76,94,48,44"/>
+<area shape="rect" id="Node000003" href="$structs__greed.html" title=" " alt="" coords="95,5,168,31"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="121,44,93,94,89,92,116,41"/>
+</map>

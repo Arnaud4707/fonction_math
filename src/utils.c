@@ -36,8 +36,29 @@ int f_close(t_controller* con)
 
 int event_key(int key, t_controller* con)
 {
+	for (int i = 0; i < con->vars->height; i++){
+		for (int j = 0; j < con->vars->width; j++){
+			my_mlx_pixel_put(con->vars->img, j, i, 0xAAAAAA);
+		}
+	}
+
+	printf("%d\n", key);
 	if (key == 65307)
 		f_close(con);
+	else if (key == 97)
+		f_tan_x(-20, con->vars);
+	else if (key == 65362)
+		f_asymptote(-10, 0, 1.25, -1, 0.5, con->vars);
+	
+	for (int i = 0; i < con->vars->height; i++){
+
+		for (int j = 0; j < con->vars->width; j++){
+
+			if (i == (con->vars->height / 2) || j == (con->vars->width / 2))
+				my_mlx_pixel_put(con->vars->img, j, i, 0x00000000);
+		}
+	}
+	mlx_put_image_to_window(con->mlx, con->vars->win, con->vars->img->img, 0, 0);
 	return(0);
 }
 
@@ -423,13 +444,13 @@ void f_log_base(double x_, double c, t_vars *vars)
 	}
 }
 
-void f_diff_ax(double x_, t_vars *vars) // y' = 2y
+void f_diff_ax(double x_, double a, t_vars *vars)
 {
 	double step = 0.01;
-
-	while (x_ < 10)
+	
+	while (x_ < 50)
 	{
-		double y_ = 0.5 * exp(x_ * 2);
+		double y_ = a * exp(x_ * a);
 		
 		int x = vars->width / 2 + (int)(vars->scale_w * x_);
 		int y = vars->height / 2 - (int)(vars->scale_h * y_);
@@ -476,6 +497,23 @@ void f_clothoide(double x_, double y_, double k, t_vars *vars)
 		if (x >= 0 && x < vars->width && y >= 0 && y < vars->height)
 			my_mlx_pixel_put(vars->img, x, y, 0x0000FF);
 		t += step;
+	}
+}
+
+void f_diff_ax_plus_b(double x_, double a, double b, t_vars *vars)
+{
+	double step = 0.01;
+	
+	while (x_ < 50)
+	{
+		double y_ = a * exp(x_ * a) - (b/ a);
+		
+		int x = vars->width / 2 + (int)(vars->scale_w * x_);
+		int y = vars->height / 2 - (int)(vars->scale_h * y_);
+
+		if (x >= 0 && x < vars->width && y >= 0 && y < vars->height)
+			my_mlx_pixel_put(vars->img, x, y, 0x00FF00);
+		x_ += step;
 	}
 }
 
