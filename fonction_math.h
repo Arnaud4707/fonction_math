@@ -5,6 +5,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <stdlib.h>
+#include <sys/time.h>
 #include "mlx/mlx.h"
 
 #define _USE_MATH_DEFINES
@@ -155,6 +156,8 @@ typedef struct s_controller{
 	t_vars* tars;
 }	t_controller;
 
+// --------------------------------------------------------------
+
 /**
  * @file	utils.c
  * 
@@ -190,7 +193,27 @@ void	arrow(int key, t_controller* core);
 void	change_a_in_sin(int key, t_controller* core);
 void	move(double dx, double dy, t_vars *vars);
 
-void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
+__int64_t		diff_time(struct timeval* st, struct timeval* end);
+
+static inline void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
+{
+	char *dst;
+
+	dst = data->addr + (y * data->line_length + x * (data->bpp / 8));
+	*(unsigned int *)dst = color;
+}
+
+static inline	void fill_background(t_data *img, int color, int width, int height)
+{
+    for (int y = 0; y < height; y++)
+    {
+        unsigned int *row = (unsigned int *)(img->addr + y * img->line_length);
+        
+        for (int x = 0; x < width; x++)
+            row[x] = color;
+    }
+}
+
 void    init_function(t_controller* core);
 void 	vars_init(t_vars *vars, t_controller* control);
 void	f_ax_plus_b(double x_, double a, double b, t_vars* vars);
@@ -215,10 +238,12 @@ void	f_ax_plus_b(double x_, double a, double b, t_vars* vars);
  * 
  * @param	h	Le déphasage correspond au déplacement horizontal de la
  *  fonction sinus transformée par rapport à la fonction sinus de base.
+ * 
+ * @param	vars	Le pointeur vers la structure de la fenêtre.
  */
-void	f_sin_x(double x_, double a, double b, double h, double k, t_vars *vars, t_controller* con);
+void	f_sin_x(double x_, double a, double b, double h, double k, t_vars *vars);
 
-void	f_cos_x(double x_, t_vars *vars);
+void	f_cos_x(double x_, double a, double b, double h, double k, t_vars *vars);
 void	f_tan_x(double x_, t_vars *vars);
 void	f_cercle(double x_, double y_, t_vars* vars);
 void	f_link_cercle(double x_, double y_, t_vars* vars);

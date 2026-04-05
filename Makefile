@@ -9,7 +9,7 @@ NAME = graph
 
 CC = cc 
 
-CFLAGS = -Wall -Wextra -Werror -I./
+CFLAGS = -Wall -Wextra -Werror -I./ -O3 -march=native -ffast-math
 
 MAIN = main.c
 

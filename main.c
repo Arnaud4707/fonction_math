@@ -2,46 +2,46 @@
 
 int main(void)
 {
-	t_controller control;
+	t_controller core;
 
-	memset(&control, 0, sizeof(t_controller));
-	control.mlx = mlx_init();
-	control.vars = malloc(sizeof(t_vars));
-	vars_init(control.vars, &control);
-	// control.tars = malloc(sizeof(t_vars));
-	// vars_init(control.tars, &control);
+	memset(&core, 0, sizeof(t_controller));
+	core.mlx = mlx_init();
+	core.vars = malloc(sizeof(t_vars));
+	vars_init(core.vars, &core);
+	// core.tars = malloc(sizeof(t_vars));
+	// vars_init(core.tars, &core);
 
-	// f_sin_x(-20, control.vars, &control); //2 win
-	// f_cos_x(-20, control.vars);
-	// f_tan_x(-20, control.vars);
-	// f_cercle(4, 0, control.vars);
-	// f_ellipse(4, 0, 2, -1, control.vars);
-	// f_spirale_archimede(15, 0.65, 0, control.vars);
-	// f_spirale_hyperbolique(10, 25, control.vars);
-	// f_spirale_log(15, 0.05, 1.16, control.vars);
-	// f_spirale_archimede(15, 1.1673849, 0, control.vars);
-	// f_log_base(-4, 2, control.vars);
-	// f_spirale_asymptote(20, 20, 0, 15, control.vars);
-	// f_asymptote(-10, 0, 1, 1, 1, control.vars);
-	// f_exp_canon_simple(-4, 2, -1, 2, control.vars);
-	// f_exp_canon(-4, 2, -1, 2, 3, 1, control.vars);
-	// f_diff_ax(0, 0.5, control.vars);
-	// f_diff_ax(-10, 3, control.vars);
-	// f_diff_ax_plus_b(0, 1, 0.5, control.vars);
-	// f_diff_ax_plus_b(0, 0.7, 0.4, control.vars);
-	// f_diff_ax_plus_b(0, 0.1, -0.7, control.vars);
-	// f_diff_ax(-50, -0.5, control.vars);
-	// f_clothoide(3, 3, 1, control.vars);
+	// f_sin_x(-20, core.vars, &core); //2 win
+	// f_cos_x(-20, core.vars);
+	// f_tan_x(-20, core.vars);
+	// f_cercle(4, 0, core.vars);
+	// f_ellipse(4, 0, 2, -1, core.vars);
+	// f_spirale_archimede(15, 0.65, 0, core.vars);
+	// f_spirale_hyperbolique(10, 25, core.vars);
+	// f_spirale_log(15, 0.05, 1.16, core.vars);
+	// f_spirale_archimede(15, 1.1673849, 0, core.vars);
+	// f_log_base(-4, 2, core.vars);
+	// f_spirale_asymptote(20, 20, 0, 15, core.vars);
+	// f_asymptote(-10, 0, 1, 1, 1, core.vars);
+	// f_exp_canon_simple(-4, 2, -1, 2, core.vars);
+	// f_exp_canon(-4, 2, -1, 2, 3, 1, core.vars);
+	// f_diff_ax(0, 0.5, core.vars);
+	// f_diff_ax(-10, 3, core.vars);
+	// f_diff_ax_plus_b(0, 1, 0.5, core.vars);
+	// f_diff_ax_plus_b(0, 0.7, 0.4, core.vars);
+	// f_diff_ax_plus_b(0, 0.1, -0.7, core.vars);
+	// f_diff_ax(-50, -0.5, core.vars);
+	// f_clothoide(3, 3, 1, core.vars);
 
-	printf("%f %f\n", control.vars->scale_h, control.vars->scale_w);
+	// printf("%f %f\n", core.vars->scale_h, core.vars->scale_w);
 
-	mlx_hook(control.vars->win, ON_DESTROY, (1L >> 0), f_close, &control);
-	mlx_hook(control.vars->win, ON_KEYDOWN, (1L << 0), event_key, &control);
+	mlx_hook(core.vars->win, ON_DESTROY, (1L), f_close, &core);
+	mlx_hook(core.vars->win, ON_KEYDOWN, (1L), event_key, &core);
 
-	// mlx_hook(control.tars->win, ON_DESTROY, (1L >> 0), f_close, &control);
-	// mlx_hook(control.tars->win, ON_KEYDOWN, (1L << 0), event_key, &control);
-	mlx_loop_hook(control.mlx, render_loop, &control);
-	// mlx_put_image_to_window(control.mlx, control.tars->win, control.tars->img->img, 0, 0);
-	mlx_loop(control.mlx);
+	// mlx_hook(core.tars->win, ON_DESTROY, (1L >> 0), f_close, &core);
+	// mlx_hook(core.tars->win, ON_KEYDOWN, (1L << 0), event_key, &core);
+	mlx_loop_hook(core.mlx, render_loop, &core);
+	// mlx_put_image_to_window(core.mlx, core.tars->win, core.tars->img->img, 0, 0);
+	mlx_loop(core.mlx);
 	return (0);
 }

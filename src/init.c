@@ -24,7 +24,7 @@ void vars_init(t_vars *vars, t_controller* core)
 
 void    init_function(t_controller* core)
 {
-    core->vars->fonction.sin.x = 0;
+    core->vars->fonction.sin.x = -3 * M_PI;
     core->vars->fonction.sin.a = 2;
     core->vars->fonction.sin.b = 2;
     core->vars->fonction.sin.h = 0;

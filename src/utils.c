@@ -34,11 +34,7 @@ int f_close(t_controller* core)
 	return(0);
 }
 
-void my_mlx_pixel_put(t_data *data, int x, int y, int color)
+__int64_t		diff_time(struct timeval* st, struct timeval* end)
 {
-	char *dst;
-
-	dst = data->addr + (y * data->line_length + x * (data->bpp / 8));
-	*(unsigned int *)dst = color;
+    return(((end->tv_sec - st->tv_sec) * 1000000 + (end->tv_usec - st->tv_usec)));
 }
-
