@@ -1,4 +1,4 @@
-#include "../sinus.h"
+#include "../fonction_math.h"
 
 void f_ax_plus_b(double x_, double a, double b, t_vars *vars)
 {
@@ -8,8 +8,8 @@ void f_ax_plus_b(double x_, double a, double b, t_vars *vars)
 	{
 		double y_ = x_ * a + b;
 		
-		int x = vars->width / 2 + (int)(vars->scale_w * x_);
-		int y = vars->height / 2 - (int)(vars->scale_h * y_);
+		int x = (int)((x_ - vars->greed.x_min) * vars->scale_w);
+		int y = (int)((vars->greed.y_max - y_) * vars->scale_h);
 
 		if (x >= 0 && x < vars->width && y >= 0 && y < vars->height)
 			my_mlx_pixel_put(vars->img, x, y, 0xFF0000);
@@ -25,8 +25,8 @@ void f_ax2_puls_bx_plus_c(double x_, double a, double b, double c, t_vars* vars)
 	{
 		double y_ = (a * x_ * x_) + (b * x_) * c;
 		
-		int x = vars->width / 2 + (int)(vars->scale_w * x_);
-		int y = vars->height / 2 - (int)(vars->scale_h * y_);
+		int x = (int)((x_ - vars->greed.x_min) * vars->scale_w);
+		int y = (int)((vars->greed.y_max - y_) * vars->scale_h);
 
 		if (x >= 0 && x < vars->width && y >= 0 && y < vars->height)
 			my_mlx_pixel_put(vars->img, x, y, 0xFF0000);
@@ -55,16 +55,16 @@ void f_ellipse(double x_, double y_, double a, double b, t_vars* vars)
 	}
 }
 
-void f_a_power_x(double x_, double c, t_vars *vars)
+void f_a_power_x(double x_, double a, t_vars *vars)
 {
 	double step = 0.01;
 
 	while (x_ < vars->greed.x_max)
 	{
-		double y_ = pow(c, x_);
+		double y_ = pow(a, x_);
 		
-		int x = vars->width / 2 + (int)(vars->scale_w * x_);
-		int y = vars->height / 2 - (int)(vars->scale_h * y_);
+		int x = (int)((x_ - vars->greed.x_min) * vars->scale_w);
+		int y = (int)((vars->greed.y_max - y_) * vars->scale_h);
 
 		if (x >= 0 && x < vars->width && y >= 0 && y < vars->height)
 			my_mlx_pixel_put(vars->img, x, y, 0x0000FF);
@@ -80,8 +80,8 @@ void f_exp_canon_simple(double x_, double a, double b, double c, t_vars *vars)
 	{
 		double y_ = a * pow(c, x_ * b);
 		
-		int x = vars->width / 2 + (int)(vars->scale_w * x_);
-		int y = vars->height / 2 - (int)(vars->scale_h * y_);
+		int x = (int)((x_ - vars->greed.x_min) * vars->scale_w);
+		int y = (int)((vars->greed.y_max - y_) * vars->scale_h);
 
 		if (x >= 0 && x < vars->width && y >= 0 && y < vars->height)
 			my_mlx_pixel_put(vars->img, x, y, 0x0000FF);
@@ -97,8 +97,8 @@ void f_exp_canon(double x_, double a, double b, double c, double h, double k, t_
 	{
 		double y_ = (a * pow(c, (x_ - h) * b)) + k;
 		
-		int x = vars->width / 2 + (int)(vars->scale_w * x_);
-		int y = vars->height / 2 - (int)(vars->scale_h * y_);
+		int x = (int)((x_ - vars->greed.x_min) * vars->scale_w);
+		int y = (int)((vars->greed.y_max - y_) * vars->scale_h);
 
 		if (x >= 0 && x < vars->width && y >= 0 && y < vars->height)
 			my_mlx_pixel_put(vars->img, x, y, 0x0000FF);
@@ -119,8 +119,8 @@ void f_log_base(double x_, double c, t_vars *vars)
 	{
 		double y_ = logbase(x_, c);
 		
-		int x = vars->width / 2 + (int)(vars->scale_w * x_);
-		int y = vars->height / 2 - (int)(vars->scale_h * y_);
+		int x = (int)((x_ - vars->greed.x_min) * vars->scale_w);
+		int y = (int)((vars->greed.y_max - y_) * vars->scale_h);
 
 		if (x >= 0 && x < vars->width && y >= 0 && y < vars->height)
 			my_mlx_pixel_put(vars->img, x, y, 0x00FF00);
@@ -128,16 +128,16 @@ void f_log_base(double x_, double c, t_vars *vars)
 	}
 }
 
-void f_diff_ax(double x_, double a, t_vars *vars)
+void f_diff_ax(double x_, double a, double c, t_vars *vars)
 {
 	double step = 0.01;
 	
-	while (x_ < 50)
+	while (x_ < vars->greed.x_max)
 	{
-		double y_ = a * exp(x_ * a);
+		double y_ = c * exp(x_ * a);
 		
-		int x = vars->width / 2 + (int)(vars->scale_w * x_);
-		int y = vars->height / 2 - (int)(vars->scale_h * y_);
+		int x = (int)((x_ - vars->greed.x_min) * vars->scale_w);
+		int y = (int)((vars->greed.y_max - y_) * vars->scale_h);
 
 		if (x >= 0 && x < vars->width && y >= 0 && y < vars->height)
 			my_mlx_pixel_put(vars->img, x, y, 0x00FF00);
@@ -153,8 +153,8 @@ void f_asymptote(double x_, double a, double b, double c, double d, t_vars *vars
 	{
 		double y_ = (a * x_ + b) / (c * x_ + d);
 		
-		int x = vars->width / 2 + (int)(vars->scale_w * x_);
-		int y = vars->height / 2 - (int)(vars->scale_h * y_);
+		int x = (int)((x_ - vars->greed.x_min) * vars->scale_w);
+		int y = (int)((vars->greed.y_max - y_) * vars->scale_h);
 
 		if (x >= 0 && x < vars->width && y >= 0 && y < vars->height)
 			my_mlx_pixel_put(vars->img, x, y, 0x00FF00);
@@ -162,16 +162,16 @@ void f_asymptote(double x_, double a, double b, double c, double d, t_vars *vars
 	}
 }
 
-void f_diff_ax_plus_b(double x_, double a, double b, t_vars *vars)
+void f_diff_ax_plus_b(double x_, double a, double b, double c, t_vars *vars)
 {
 	double step = 0.01;
 	
-	while (x_ < 50)
+	while (x_ < vars->greed.x_max)
 	{
-		double y_ = a * exp(x_ * a) - (b/ a);
+		double y_ = c * exp(x_ * a) - (b/ a);
 		
-		int x = vars->width / 2 + (int)(vars->scale_w * x_);
-		int y = vars->height / 2 - (int)(vars->scale_h * y_);
+		int x = (int)((x_ - vars->greed.x_min) * vars->scale_w);
+		int y = (int)((vars->greed.y_max - y_) * vars->scale_h);
 
 		if (x >= 0 && x < vars->width && y >= 0 && y < vars->height)
 			my_mlx_pixel_put(vars->img, x, y, 0x00FF00);

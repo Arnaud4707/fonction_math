@@ -1,14 +1,14 @@
-#include "../sinus.h"
+#include "../fonction_math.h"
 
-
-void f_sin_x(double x_, t_vars *vars, t_controller* con)
+void f_sin_x(double x_, double a, double b, double h, double k, t_vars *vars, t_controller* con)
 {
+	(void)con;
 	double step = 0.01;
 
 	while (x_ < vars->greed.x_max)
 	{
-		double y_ = 4.0 *(sin((x_ + (M_PI / 2) * 2)));
-		f_link_cercle(x_, y_, con->tars);
+		double y_ = a * sin(b * (x_ - h)) + k;
+		// f_link_cercle(x_, y_, con->tars);
 		
 		int x = vars->width / 2 + (int)(vars->scale_w * x_);
 		int y = vars->height / 2 - (int)(vars->scale_h * y_);
