@@ -2,12 +2,6 @@
 
 int event_key(int key, t_controller* core)
 {
-	for (int i = 0; i < core->vars->height; i++){
-		for (int j = 0; j < core->vars->width; j++){
-			my_mlx_pixel_put(core->vars->img, j, i, 0xAAAAAA);
-		}
-	}
-
 	if (key == 65307)
 		f_close(core);
 	else if (key == 121)
@@ -23,8 +17,9 @@ int event_key(int key, t_controller* core)
 		arrow(key, core);
 
 	if ((key == 113 || key == 100 || key == 97 || key == 101 || key == 119
-		|| key == 99 || key == 122 || key == 115) && core->vars->id_fonction == 7)
-		change_a_in_sin(key, core);
+		|| key == 99 || key == 122 || key == 115)
+		&& (core->vars->id_fonction == 7 || core->vars->id_fonction == 8))
+			change_a_in_sin(key, core);
 
 	if (core->vars->id_fonction > core->vars->nb_fonction)
 		core->vars->id_fonction = 1;

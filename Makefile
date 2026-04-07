@@ -9,7 +9,9 @@ NAME = graph
 
 CC = cc 
 
-CFLAGS = -Wall -Wextra -Werror -I./ -O3 -march=native -ffast-math
+HEADER= fonction_math.h color.h grilles.h
+
+CFLAGS = -Wall -Wextra -Werror -I./ #-O3 -march=native -ffast-math
 
 MAIN = main.c
 
@@ -20,7 +22,7 @@ LIB_MLX = libmlx.a
 SRC_PATH = src/
 
 SRC_DIR = utils.c trigonometrie.c renderer.c functions.c \
-		events.c init.c
+		events.c init.c grilles.c animation.c
 
 SRC = $(addprefix $(SRC_PATH), $(SRC_DIR))
 
@@ -34,16 +36,16 @@ MAIN = main.c
 
 OBJ_MAIN = obj/main.o
 
-$(OBJ_PATH)%.o: $(SRC_PATH)%.c
+$(OBJ_PATH)%.o: $(SRC_PATH)%.c $(HEADER)
 	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) -c $< -o $@
 
-$(NAME): $(MLX) $(OBJ) $(OBJ_MAIN)
+$(NAME): $(MLX) $(OBJ) $(OBJ_MAIN) 
 	$(CC) $(CFLAGS) $(OBJ) $(OBJ_MAIN) $(MLX) -lX11 -lXext -lm -o $(NAME) -g3
 
 all: $(NAME)
 
-$(OBJ_MAIN): main.c
+$(OBJ_MAIN): main.c  $(HEADER)
 	$(CC) $(CFLAGS) -c main.c -o $(OBJ_MAIN)
 
 $(MLX):

@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include <sys/time.h>
 #include "mlx/mlx.h"
+#include "mlx/mlx_int.h"
 
 #define _USE_MATH_DEFINES
 #include <math.h>
@@ -127,16 +128,17 @@ typedef	struct s_fonction{
 typedef struct s_vars t_vars;
 struct s_vars{
 	
-	void*		win;
-	t_data*		img;
-	int			height;
-	int 		width;
-	double 		scale_h;
-	double 		scale_w;
-	t_greed 	greed;
-	int			id_fonction;
-	int			nb_fonction;
-	t_fonction	fonction;
+	void*				win;
+	t_data*				img;
+	int					height;
+	int 				width;
+	double 				scale_h;
+	double 				scale_w;
+	t_greed 			greed;
+	int					id_fonction;
+	int					nb_fonction;
+	t_fonction			fonction;
+	struct	s_col_name*	col;
 };
 
 /**
@@ -195,25 +197,6 @@ void	move(double dx, double dy, t_vars *vars);
 
 __int64_t		diff_time(struct timeval* st, struct timeval* end);
 
-static inline void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
-{
-	char *dst;
-
-	dst = data->addr + (y * data->line_length + x * (data->bpp / 8));
-	*(unsigned int *)dst = color;
-}
-
-static inline	void fill_background(t_data *img, int color, int width, int height)
-{
-    for (int y = 0; y < height; y++)
-    {
-        unsigned int *row = (unsigned int *)(img->addr + y * img->line_length);
-        
-        for (int x = 0; x < width; x++)
-            row[x] = color;
-    }
-}
-
 void    init_function(t_controller* core);
 void 	vars_init(t_vars *vars, t_controller* control);
 void	f_ax_plus_b(double x_, double a, double b, t_vars* vars);
@@ -244,7 +227,7 @@ void	f_ax_plus_b(double x_, double a, double b, t_vars* vars);
 void	f_sin_x(double x_, double a, double b, double h, double k, t_vars *vars);
 
 void	f_cos_x(double x_, double a, double b, double h, double k, t_vars *vars);
-void	f_tan_x(double x_, t_vars *vars);
+void	f_tan_x(double x_, double a, double b, double h, double k, t_vars *vars);
 void	f_cercle(double x_, double y_, t_vars* vars);
 void	f_link_cercle(double x_, double y_, t_vars* vars);
 void	f_spirale_archimede(double tour, double a_, double b, t_vars* vars);
@@ -288,5 +271,8 @@ void	f_spirale_asymptote(double tour,double a, double b, double c, t_vars* vars)
 void	f_diff_ax(double x_, double a, double c, t_vars *vars);
 void	f_clothoide(double x_, double y_, double k, t_vars *vars);
 void	f_diff_ax_plus_b(double x_, double a, double b, double c, t_vars *vars);
+
+void    grille_point(t_controller* core);
+void    animation_sinus(double x_, double a, double b, double h, double k, t_vars *vars);
 
 #endif

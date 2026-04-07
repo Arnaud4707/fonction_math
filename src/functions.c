@@ -3,6 +3,7 @@
 void f_ax_plus_b(double x_, double a, double b, t_vars *vars)
 {
 	double step = 0.01;
+	unsigned int* buffer = (unsigned int*)vars->img->addr;
 
 	while (x_ < vars->greed.x_max)
 	{
@@ -12,7 +13,7 @@ void f_ax_plus_b(double x_, double a, double b, t_vars *vars)
 		int y = (int)((vars->greed.y_max - y_) * vars->scale_h);
 
 		if (x >= 0 && x < vars->width && y >= 0 && y < vars->height)
-			my_mlx_pixel_put(vars->img, x, y, 0xFF0000);
+			buffer[y * vars->width + x] = 0x00FF0000;
 		x_ += step;
 	}
 }
@@ -20,6 +21,7 @@ void f_ax_plus_b(double x_, double a, double b, t_vars *vars)
 void f_ax2_puls_bx_plus_c(double x_, double a, double b, double c, t_vars* vars)
 {
     double step = 0.01;
+	unsigned int* buffer = (unsigned int*)vars->img->addr;
 
 	while (x_ < vars->greed.x_max)
 	{
@@ -29,7 +31,7 @@ void f_ax2_puls_bx_plus_c(double x_, double a, double b, double c, t_vars* vars)
 		int y = (int)((vars->greed.y_max - y_) * vars->scale_h);
 
 		if (x >= 0 && x < vars->width && y >= 0 && y < vars->height)
-			my_mlx_pixel_put(vars->img, x, y, 0xFF0000);
+			buffer[y * vars->width + x] = 0x00FF0000;
 		x_ += step;
 	}
 }
@@ -37,6 +39,7 @@ void f_ax2_puls_bx_plus_c(double x_, double a, double b, double c, t_vars* vars)
 void f_ellipse(double x_, double y_, double a, double b, t_vars* vars)
 {
 	double step = 0.01;
+	unsigned int* buffer = (unsigned int*)vars->img->addr;
 	double r = sqrt((x_ * x_) + (y_ * y_));
 	double fi = atan2(y_, x_);
 
@@ -50,7 +53,7 @@ void f_ellipse(double x_, double y_, double a, double b, t_vars* vars)
 		int y = vars->height / 2 - (int)(vars->scale_h * y1);
 
 		if (x >= 0 && x < vars->width && y >= 0 && y < vars->height)
-			my_mlx_pixel_put(vars->img, x, y, 0x0000FF);
+			buffer[y * vars->width + x] = 0x000000FF;
 		fi += step;
 	}
 }
@@ -58,6 +61,7 @@ void f_ellipse(double x_, double y_, double a, double b, t_vars* vars)
 void f_a_power_x(double x_, double a, t_vars *vars)
 {
 	double step = 0.01;
+	unsigned int* buffer = (unsigned int*)vars->img->addr;
 
 	while (x_ < vars->greed.x_max)
 	{
@@ -67,7 +71,7 @@ void f_a_power_x(double x_, double a, t_vars *vars)
 		int y = (int)((vars->greed.y_max - y_) * vars->scale_h);
 
 		if (x >= 0 && x < vars->width && y >= 0 && y < vars->height)
-			my_mlx_pixel_put(vars->img, x, y, 0x0000FF);
+			buffer[y * vars->width + x] = 0x000000FF;
 		x_ += step;
 	}
 }
@@ -75,6 +79,7 @@ void f_a_power_x(double x_, double a, t_vars *vars)
 void f_exp_canon_simple(double x_, double a, double b, double c, t_vars *vars)
 {
 	double step = 0.01;
+	unsigned int* buffer = (unsigned int*)vars->img->addr;
 
 	while (x_ < vars->greed.x_max)
 	{
@@ -84,7 +89,7 @@ void f_exp_canon_simple(double x_, double a, double b, double c, t_vars *vars)
 		int y = (int)((vars->greed.y_max - y_) * vars->scale_h);
 
 		if (x >= 0 && x < vars->width && y >= 0 && y < vars->height)
-			my_mlx_pixel_put(vars->img, x, y, 0x0000FF);
+			buffer[y * vars->width + x] = 0x000000FF;
 		x_ += step;
 	}
 }
@@ -92,6 +97,7 @@ void f_exp_canon_simple(double x_, double a, double b, double c, t_vars *vars)
 void f_exp_canon(double x_, double a, double b, double c, double h, double k, t_vars *vars)
 {
 	double step = 0.01;
+	unsigned int* buffer = (unsigned int*)vars->img->addr;
 
 	while (x_ < vars->greed.x_max)
 	{
@@ -101,7 +107,7 @@ void f_exp_canon(double x_, double a, double b, double c, double h, double k, t_
 		int y = (int)((vars->greed.y_max - y_) * vars->scale_h);
 
 		if (x >= 0 && x < vars->width && y >= 0 && y < vars->height)
-			my_mlx_pixel_put(vars->img, x, y, 0x0000FF);
+			buffer[y * vars->width + x] = 0x000000FF;
 		x_ += step;
 	}
 }
@@ -114,6 +120,7 @@ double logbase(double a, double base)
 void f_log_base(double x_, double c, t_vars *vars)
 {
 	double step = 0.01;
+	unsigned int* buffer = (unsigned int*)vars->img->addr;
 
 	while (x_ < vars->greed.x_max)
 	{
@@ -123,7 +130,7 @@ void f_log_base(double x_, double c, t_vars *vars)
 		int y = (int)((vars->greed.y_max - y_) * vars->scale_h);
 
 		if (x >= 0 && x < vars->width && y >= 0 && y < vars->height)
-			my_mlx_pixel_put(vars->img, x, y, 0x00FF00);
+			buffer[y * vars->width + x] = 0x0000FF00;
 		x_ += step;
 	}
 }
@@ -131,6 +138,7 @@ void f_log_base(double x_, double c, t_vars *vars)
 void f_diff_ax(double x_, double a, double c, t_vars *vars)
 {
 	double step = 0.01;
+	unsigned int* buffer = (unsigned int*)vars->img->addr;
 	
 	while (x_ < vars->greed.x_max)
 	{
@@ -140,7 +148,7 @@ void f_diff_ax(double x_, double a, double c, t_vars *vars)
 		int y = (int)((vars->greed.y_max - y_) * vars->scale_h);
 
 		if (x >= 0 && x < vars->width && y >= 0 && y < vars->height)
-			my_mlx_pixel_put(vars->img, x, y, 0x00FF00);
+			buffer[y * vars->width + x] = 0x0000FF00;
 		x_ += step;
 	}
 }
@@ -148,6 +156,7 @@ void f_diff_ax(double x_, double a, double c, t_vars *vars)
 void f_asymptote(double x_, double a, double b, double c, double d, t_vars *vars)
 {
 	double step = 0.01;
+	unsigned int* buffer = (unsigned int*)vars->img->addr;
 
 	while (x_ < 10)
 	{
@@ -157,7 +166,7 @@ void f_asymptote(double x_, double a, double b, double c, double d, t_vars *vars
 		int y = (int)((vars->greed.y_max - y_) * vars->scale_h);
 
 		if (x >= 0 && x < vars->width && y >= 0 && y < vars->height)
-			my_mlx_pixel_put(vars->img, x, y, 0x00FF00);
+			buffer[y * vars->width + x] = 0x0000FF00;
 		x_ += step;
 	}
 }
@@ -165,6 +174,7 @@ void f_asymptote(double x_, double a, double b, double c, double d, t_vars *vars
 void f_diff_ax_plus_b(double x_, double a, double b, double c, t_vars *vars)
 {
 	double step = 0.01;
+	unsigned int* buffer = (unsigned int*)vars->img->addr;
 	
 	while (x_ < vars->greed.x_max)
 	{
@@ -174,7 +184,7 @@ void f_diff_ax_plus_b(double x_, double a, double b, double c, t_vars *vars)
 		int y = (int)((vars->greed.y_max - y_) * vars->scale_h);
 
 		if (x >= 0 && x < vars->width && y >= 0 && y < vars->height)
-			my_mlx_pixel_put(vars->img, x, y, 0x00FF00);
+			buffer[y * vars->width + x] = 0x0000FF00;
 		x_ += step;
 	}
 }
