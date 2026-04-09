@@ -17,8 +17,9 @@ void    grille_point(t_controller* core)
     // }
 
     // for (double j = core->vars->greed.y_min; j < core->vars->greed.y_max; j += 2)
-        // f_sin_x(core->vars->greed.x_min, core->vars->fonction.sin.a, core->vars->fonction.sin.b,
-            // core->vars->fonction.sin.h, j, core->vars);
-    animation_sinus(0, core->vars->fonction.sin.a, core->vars->fonction.sin.b,
-        core->vars->fonction.sin.h, 0, core->vars);
+    //     f_sin_x(core->vars->greed.x_min, core->vars->fonction.trigo.a, core->vars->fonction.trigo.b,
+    //         core->vars->fonction.trigo.h, j, core->vars);
+    // animation_sinus(0, core->vars->fonction.trigo.a, core->vars->fonction.trigo.b,
+    //     core->vars->fonction.trigo.h, 0, core->vars);
+    (void)core;
 }

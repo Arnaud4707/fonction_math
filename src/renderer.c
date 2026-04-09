@@ -6,39 +6,52 @@ int render_loop(void* core_)
 
     struct timeval start_tv;
     struct timeval end_tv;
-	// static int8_t i = 160;
+	// void(*tab_cercle[1])(double x_, double y_, t_vars *vars) = {f_cercle};
 
 	gettimeofday(&start_tv, NULL);
 	t_controller* core = (t_controller*)(core_);
 
-	// core->vars->col->color = core->vars->col->name[i++];
-
-    fill_background(core->vars->img, 0x00EEEEEE, core->vars->width, core->vars->height);
+    fill_background(core->vars->img, BLANC_CAFE, core->vars->width, core->vars->height);
 	// grille_point(core);
+	// for (double j = core->vars->greed.y_min; j < core->vars->greed.y_max; j += 2)
+	// 	background_sinus(core->vars->greed.x_min, core->vars->fonction.trigo.a, core->vars->fonction.trigo.b,
+	// 		core->vars->fonction.trigo.h, j, core->vars);
 	grille_orthonorme(core);
-	// f_cos_x(core->vars->fonction.sin.x, core->vars->fonction.sin.a, core->vars->fonction.sin.b,
-	// 		core->vars->fonction.sin.h, core->vars->fonction.sin.k, core->vars);
+	// drawLine(core->vars->fonction.test.x0, core->vars->fonction.test.y0, core->vars->fonction.test.x1, core->vars->fonction.test.y1, (50 << 16 | 200 << 8 | 13 ), core);
 
 	if (core->vars->id_fonction == 1)
-		f_ax_plus_b(0, 1, 1, core->vars);
+		f_ax_plus_b(0, core->vars->fonction.al.a, core->vars->fonction.al.b, core->vars);
 	else if (core->vars->id_fonction == 2)
-		f_ax2_puls_bx_plus_c(-9.99, 1, 1.3, 0, core->vars);
+		f_ax2_puls_bx_plus_c(-9.99, core->vars->fonction.al.a, core->vars->fonction.al.b, core->vars->fonction.al.c, core->vars);
 	else if (core->vars->id_fonction == 3)
-		f_a_power_x(-10, 1.1, core->vars);
+		f_a_power_x(-10, core->vars->fonction.al.a, core->vars);
 	else if (core->vars->id_fonction == 4)
-		f_spirale_asymptote(20, 20, 0, 15, core->vars);
+		f_diff_ax(-3, core->vars->fonction.al.a, core->vars->fonction.al.c, core->vars);
 	else if (core->vars->id_fonction == 5)
-		f_diff_ax(-3, 0.75, -0.5, core->vars);
+		f_diff_ax_plus_b(-3, core->vars->fonction.al.a, core->vars->fonction.al.b, core->vars->fonction.al.c, core->vars);
 	else if (core->vars->id_fonction == 6)
-		f_diff_ax_plus_b(-3, 0.75, 0.5, 1.2, core->vars);
+		f_spirale_asymptote(20, core->vars->fonction.al.a, core->vars->fonction.al.b, core->vars->fonction.al.c, core->vars);
 	else if (core->vars->id_fonction == 7)
-		f_sin_x(core->vars->fonction.sin.x, core->vars->fonction.sin.a, core->vars->fonction.sin.b,
-			core->vars->fonction.sin.h, core->vars->fonction.sin.k, core->vars);
+		f_sin_x(core->vars->fonction.trigo.x, core->vars->fonction.trigo.a, core->vars->fonction.trigo.b,
+			core->vars->fonction.trigo.h, core->vars->fonction.trigo.k, core->vars);
+	else if (core->vars->id_fonction == 8)
+		f_cos_x(core->vars->fonction.trigo.x, core->vars->fonction.trigo.a, core->vars->fonction.trigo.b,
+			core->vars->fonction.trigo.h, core->vars->fonction.trigo.k, core->vars);
+	else if (core->vars->id_fonction == 9)
+		f_tan_x(core->vars->fonction.trigo.x, core->vars->fonction.trigo.a, core->vars->fonction.trigo.b,
+			core->vars->fonction.trigo.h, core->vars->fonction.trigo.k, core->vars);
+	else if (core->vars->id_fonction == 10)
+		f_cercle(core->vars->fonction.trigo.a, core->vars->fonction.trigo.b, core->vars);
+	else if (core->vars->id_fonction == 11)
+		animation_sinus(core->vars->fonction.trigo.x, core->vars->fonction.trigo.a, core->vars->fonction.trigo.b,
+			core->vars->fonction.trigo.h, core->vars->fonction.trigo.k, core->vars);
+
+	// tab_cercle[core->vars->id_fonction](2, 0, core->vars);
 
 	gettimeofday(&end_tv, NULL);
 	int t = diff_time(&start_tv, &end_tv);
 	__int16_t fps = 1000000 / t;
-	printf("time of prosses: %d\n", t);
+	printf("time of prosses: %d x0: %d\n", t, core->vars->fonction.test.x0);
 	char buff[20];
 	if (t < 20000)
 	{
@@ -48,6 +61,7 @@ int render_loop(void* core_)
 	sprintf(buff, "FPS: %d", fps);
 	mlx_put_image_to_window(core->mlx, core->vars->win, core->vars->img->img, 0, 0);
 	mlx_string_put(core->mlx, core->vars->win, 0, 20, 0x00000000, buff);
+	affiche_param(core);
 	if (t < 20000)
 		usleep(t);
 	return (0);

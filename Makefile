@@ -22,7 +22,7 @@ LIB_MLX = libmlx.a
 SRC_PATH = src/
 
 SRC_DIR = utils.c trigonometrie.c renderer.c functions.c \
-		events.c init.c grilles.c animation.c
+		events.c init.c grilles.c animation.c draw_line.c
 
 SRC = $(addprefix $(SRC_PATH), $(SRC_DIR))
 

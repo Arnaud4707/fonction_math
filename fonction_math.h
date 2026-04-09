@@ -8,9 +8,17 @@
 #include <sys/time.h>
 #include "mlx/mlx.h"
 #include "mlx/mlx_int.h"
+#include "color.h"
+#include "struct_fonction.h"
 
 #define _USE_MATH_DEFINES
 #include <math.h>
+
+#define WIDTH 1200
+#define HEIGHT 600
+#define MENU 200
+#define ABS(_x) ((_x) >= 0 ? (_x) : -(_x))
+#define SGN(_x) ((_x) < 0 ? -1 : ((_x) > 0 ? 1 : 0))
 
 enum {
 	ON_KEYDOWN = 2,
@@ -66,29 +74,6 @@ typedef struct s_greed {
 }	t_greed;
 
 /**
- * @struct	Structure de la fonction sinus.
- * 
- * @brief	Les variables de la fonction.
- * 
- * @param	x	Le point d'inflexion.
- * 
- * @param	a	Ampliture.
- * 
- * @param	b	Période d'oscillation.
- * 
- * @param	h	Déffasage.
- * 
- * @param	k	Axe d'oscillation.
- */
-typedef struct s_sin{
-	double	x;
-	double	a;
-	double	b;
-	double	h;
-	double	k;
-}	t_sin;
-
-/**
  * @struct	Structure s_fonction
  * 
  * @brief	Structure qui contient les structures des fonctions.
@@ -96,7 +81,9 @@ typedef struct s_sin{
  * @param	sin		Structure de la fonction sinus.
  */
 typedef	struct s_fonction{
-	t_sin	sin;
+	t_trigo	trigo;
+	t_algebre al;
+	t_test	test;
 }	t_fonction;
 
 
@@ -138,7 +125,6 @@ struct s_vars{
 	int					id_fonction;
 	int					nb_fonction;
 	t_fonction			fonction;
-	struct	s_col_name*	col;
 };
 
 /**
@@ -192,10 +178,12 @@ int		render_loop(void* core_);
 /** */
 void	zoom(int a, t_controller* core);
 void	arrow(int key, t_controller* core);
-void	change_a_in_sin(int key, t_controller* core);
+void	change_param_trigo(int key, t_controller* core);
+void	change_a_in_test(int key, t_controller* core);
+void	change_param_algebre(int key, t_controller* core);
 void	move(double dx, double dy, t_vars *vars);
 
-__int64_t		diff_time(struct timeval* st, struct timeval* end);
+unsigned	long	diff_time(struct timeval* st, struct timeval* end);
 
 void    init_function(t_controller* core);
 void 	vars_init(t_vars *vars, t_controller* control);
@@ -260,7 +248,7 @@ void	f_spirale_asymptote(double tour,double a, double b, double c, t_vars* vars)
  * @param 	x_ 	la valeur de la coordonée x avec laquelle on va commencé
  * à appliquer la fonction obtenue. Elle est incrémenté de 0.01 jusqu'a x < 50.
  * @param	a 	la forme de l'equation differentiel y' = ay
- * @param	c	la solution de g(0).
+ * @param	c	la solution de g(0). On l'appel aussi condition initial.
  * 
  * @author Arnaud Mugisha <amugisha6@gmail.com>
  * 
@@ -274,5 +262,24 @@ void	f_diff_ax_plus_b(double x_, double a, double b, double c, t_vars *vars);
 
 void    grille_point(t_controller* core);
 void    animation_sinus(double x_, double a, double b, double h, double k, t_vars *vars);
+void    drawLine(int x0, int y0, int x1, int y1, int c, t_controller* core);
+
+static inline	void	affiche_param(t_controller* core)
+{
+	char buff[60];
+
+	sprintf(buff, "         Diminuer/Augmenter les parametres.");
+	mlx_string_put(core->mlx, core->vars->win, 0, 50, 0x00000000, buff);
+
+	if (core->vars->id_fonction == 1)
+	{
+		sprintf(buff, "a: %f     Touche A - / E +",core->vars->fonction.al.a);
+		mlx_string_put(core->mlx, core->vars->win, 0, 70, 0x00000000, buff);
+		sprintf(buff, "b: %f     Touche Q - / D +",core->vars->fonction.al.b);
+		mlx_string_put(core->mlx, core->vars->win, 0, 90, 0x00000000, buff);
+	}
+}
+
+// #define TAB void(*tab_f[1])(double x_, double y_, t_vars *vars) = {f_cercle}
 
 #endif

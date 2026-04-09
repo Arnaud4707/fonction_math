@@ -5,7 +5,11 @@ int event_key(int key, t_controller* core)
 	if (key == 65307)
 		f_close(core);
 	else if (key == 121)
+	{
 		core->vars->id_fonction++;
+		if (core->vars->id_fonction == 11)
+			core->vars->fonction.trigo.b = 0.25;
+	}
 	else if (key == 116)
 		core->vars->id_fonction--;
 	else if (key == 112) //65451
@@ -16,39 +20,128 @@ int event_key(int key, t_controller* core)
 	if (key >= 65361 && key <= 65364)
 		arrow(key, core);
 
-	if ((key == 113 || key == 100 || key == 97 || key == 101 || key == 119
+	if (key == 113 || key == 100 || key == 97 || key == 101 || key == 119
 		|| key == 99 || key == 122 || key == 115)
-		&& (core->vars->id_fonction == 7 || core->vars->id_fonction == 8))
-			change_a_in_sin(key, core);
+	{
+		if (core->vars->id_fonction < 7)
+			change_param_algebre(key, core);
+		else
+			change_param_trigo(key, core);
+		// else if (core->vars->id_fonction == 9)
+		// 	change_a_in_test(key, core);
+	}
+		
 
 	if (core->vars->id_fonction > core->vars->nb_fonction)
-		core->vars->id_fonction = 1;
-	else if (core->vars->id_fonction < 1)
+		core->vars->id_fonction = 0;
+	else if (core->vars->id_fonction < 0)
 		core->vars->id_fonction = core->vars->nb_fonction;
 
 	// printf("key: %d, f: %d\n", key, core->vars->id_fonction);
 	return(0);
 }
 
-void	change_a_in_sin(int key, t_controller* core)
+void	change_param_trigo(int key, t_controller* core)
 {
 	double	step = 0.25;
 	if (key == 97)
-		core->vars->fonction.sin.a -= step;
+		core->vars->fonction.trigo.a -= step;
 	else if (key == 101)
-		core->vars->fonction.sin.a += step;
-	else if (key == 113)
-		core->vars->fonction.sin.b -= step;
-	else if (key == 100)
-		core->vars->fonction.sin.b += step;
+		core->vars->fonction.trigo.a += step;
+	else if (key == 113) // must be b != 0
+	{
+		core->vars->fonction.trigo.b -= step;
+		if (core->vars->fonction.trigo.b == 0 && core->vars->id_fonction == 11)
+			core->vars->fonction.trigo.b = 0.25;
+	}
+	else if (key == 100) // must be b != 0
+	{
+		core->vars->fonction.trigo.b += step;
+		if (core->vars->fonction.trigo.b == 0 && core->vars->id_fonction == 11)
+			core->vars->fonction.trigo.b = 0.25;
+	}
 	else if (key == 119)
-		core->vars->fonction.sin.h -= step;
+		core->vars->fonction.trigo.h -= step;
 	else if (key == 99)
-		core->vars->fonction.sin.h += step;
+		core->vars->fonction.trigo.h += step;
 	else if (key == 122)
-		core->vars->fonction.sin.k -= step;
+		core->vars->fonction.trigo.k -= step;
 	else if (key == 115)
-		core->vars->fonction.sin.k += step;
+		core->vars->fonction.trigo.k += step;
+}
+
+void	change_param_algebre(int key, t_controller* core)
+{
+	double	step = 0.25;
+	if (key == 97)
+		core->vars->fonction.al.a -= step;
+	else if (key == 101)
+		core->vars->fonction.al.a += step;
+	else if (key == 113)
+		core->vars->fonction.al.b -= step;
+	else if (key == 100)
+		core->vars->fonction.al.b += step;
+	else if (key == 119)
+		core->vars->fonction.al.c -= step;
+	else if (key == 99)
+		core->vars->fonction.al.c += step;
+	else if (key == 122)
+		core->vars->fonction.al.d -= step;
+	else if (key == 115)
+		core->vars->fonction.al.d += step;
+}
+
+void	change_a_in_test(int key, t_controller* core)
+{
+	int	step = 1;
+	if (key == 97)
+	{
+		core->vars->fonction.test.x0 -= step;
+		if (core->vars->fonction.test.x0 < 0)
+			core->vars->fonction.test.x0 = 0;
+	}
+	else if (key == 101)
+	{
+		core->vars->fonction.test.x0 += step;
+		if (core->vars->fonction.test.x0 > WIDTH)
+			core->vars->fonction.test.x0 = WIDTH;
+	}
+	else if (key == 113) // must be b != 0
+	{
+		core->vars->fonction.test.y0 -= step;
+		if (core->vars->fonction.test.y0 < 0)
+			core->vars->fonction.test.y0 = 0;
+	}
+	else if (key == 100) // must be b != 0
+	{
+		core->vars->fonction.test.y0 += step;
+		if (core->vars->fonction.test.y0 > WIDTH)
+			core->vars->fonction.test.y0 = WIDTH;
+	}
+	else if (key == 119)
+	{
+		core->vars->fonction.test.x1 -= step;
+		if (core->vars->fonction.test.x1 < 0)
+			core->vars->fonction.test.x1 = 0;
+	}
+	else if (key == 99)
+	{
+		core->vars->fonction.test.x1 += step;
+		if (core->vars->fonction.test.x1 > HEIGHT)
+			core->vars->fonction.test.x1 = HEIGHT;
+	}
+	else if (key == 122)
+	{
+		core->vars->fonction.test.y1 -= step;
+		if (core->vars->fonction.test.y1 < 0)
+			core->vars->fonction.test.y1 = 0;
+	}
+	else if (key == 115)
+	{
+		core->vars->fonction.test.y1 += step;
+		if (core->vars->fonction.test.y1 < HEIGHT)
+			core->vars->fonction.test.y1 = HEIGHT;
+	}
 }
 
 void zoom(int a, t_controller* core)
