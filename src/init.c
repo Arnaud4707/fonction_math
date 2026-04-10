@@ -9,8 +9,8 @@ void vars_init(t_vars *vars, t_controller* core)
 	vars->greed.x_max = 50;
 	vars->greed.y_min = -25;
 	vars->greed.y_max = 25;
-	vars->id_fonction = 1;
-	vars->nb_fonction = 11;
+	vars->id_fonction = 0;
+	vars->nb_fonction = 15;
 	vars->greed.scale_x = vars->greed.x_max - vars->greed.x_min;
 	vars->greed.scale_y = vars->greed.y_max - vars->greed.y_min;
 	vars->scale_h = vars->height / vars->greed.scale_y;
@@ -27,7 +27,7 @@ void    init_function(t_controller* core)
 {
     core->vars->fonction.trigo.x = 0;
     core->vars->fonction.trigo.a = 4;
-    core->vars->fonction.trigo.b = 0.25;
+    core->vars->fonction.trigo.b = 0;
     core->vars->fonction.trigo.h = 0;
     core->vars->fonction.trigo.k = 0;
 	core->vars->fonction.al.a = 1;

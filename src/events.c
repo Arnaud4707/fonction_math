@@ -23,7 +23,7 @@ int event_key(int key, t_controller* core)
 	if (key == 113 || key == 100 || key == 97 || key == 101 || key == 119
 		|| key == 99 || key == 122 || key == 115)
 	{
-		if (core->vars->id_fonction < 7)
+		if (core->vars->id_fonction < 6 && core->vars->id_fonction != 0)
 			change_param_algebre(key, core);
 		else
 			change_param_trigo(key, core);

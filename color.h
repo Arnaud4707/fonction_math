@@ -6,6 +6,8 @@
 #define BLEU 0x000096c7
 #define BLANC 0x00FFFFFF
 #define BLANC_PALE 0x00EEEEEE
-#define BLANC_CAFE 0xFFF7C7
+#define BLANC_CAFE 0x00FFF7C7
+#define VIOLET 0x00A770EA
+#define NOIR 0x00000000
 
 #endif

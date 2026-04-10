@@ -27,3 +27,30 @@ void    animation_sinus(double x_, double a, double b, double h, double k, t_var
 	if (speed >= dp)
 		speed = 0;
 }
+
+void    animation_sinus_concentrique(double a, double r, double thita, t_vars *vars)
+{
+    double step = 0.01;
+	unsigned int *buffer = (unsigned int *)vars->img->addr;
+	const double dp = M_PI * 2;
+	static double ap = 0;
+	static double inc = 0.025;
+
+	while (thita < dp)
+	{
+		double x1 = (r + ap) * cos(thita);
+		double y1 = (r + ap) * sin(thita);
+		
+		int x = (int)((x1 - vars->greed.x_min) * vars->scale_w);
+		int y = (int)((vars->greed.y_max - y1) * vars->scale_h);
+
+		if (x >= 0 && x < WIDTH && y >= 0 && y < HEIGHT)
+			buffer[y * WIDTH + x] = 0x0000FF;
+		thita += step;
+	}
+	if (ap >= a)
+		inc = -0.025;
+	else if (ap <= 0)
+		inc = 0.025;
+	ap += inc;
+}

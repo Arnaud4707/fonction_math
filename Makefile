@@ -11,7 +11,7 @@ CC = cc
 
 HEADER= fonction_math.h color.h grilles.h
 
-CFLAGS = -Wall -Wextra -Werror -I./ #-O3 -march=native -ffast-math
+CFLAGS = -Wall -Wextra -Werror -I./ #-O3 #-march=native -ffast-math
 
 MAIN = main.c
 
@@ -41,7 +41,7 @@ $(OBJ_PATH)%.o: $(SRC_PATH)%.c $(HEADER)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 $(NAME): $(MLX) $(OBJ) $(OBJ_MAIN) 
-	$(CC) $(CFLAGS) $(OBJ) $(OBJ_MAIN) $(MLX) -lX11 -lXext -lm -o $(NAME) -g3
+	$(CC) $(CFLAGS) $(OBJ) $(OBJ_MAIN) $(MLX) -lX11 -lXext -lm -o $(NAME) 
 
 all: $(NAME)
 
