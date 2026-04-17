@@ -1,4 +1,4 @@
-#include "../fonction_math.h"
+#include "../include/fonction_math.h"
 
 void f_ax_plus_b(double x_, double a, double b, t_vars *vars)
 {

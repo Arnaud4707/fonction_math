@@ -1,4 +1,4 @@
-#include "../fonction_math.h"
+#include "../include/fonction_math.h"
 
 
 void    grille_point(t_controller* core)
@@ -23,3 +23,4 @@ void    grille_point(t_controller* core)
     //     core->vars->fonction.trigo.h, 0, core->vars);
     (void)core;
 }
+

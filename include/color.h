@@ -1,0 +1,15 @@
+#ifndef COLOR_H
+#define COLOR_H
+
+#define	BLEU_CIEL 0x00bde0fe
+#define	BLEU_SPE 0x000096c7
+#define	BLEU 0x000000FF
+#define	BLANC 0x00FFFFFF
+#define	BLANC_PALE 0x00EEEEEE
+#define	BLANC_CAFE 0x00FFF7C7
+#define	VIOLET 0x00A770EA
+#define	NOIR 0x00000000
+#define	BLEU_MID 0x0032B4EC
+#define BLANC_BLEU 0x00CCCCFF
+
+#endif

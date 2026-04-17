@@ -1,4 +1,4 @@
-#include "../fonction_math.h"
+#include "../include/fonction_math.h"
 
 void    animation_sinus(double x_, double a, double b, double h, double k, t_vars *vars)
 {
@@ -6,6 +6,8 @@ void    animation_sinus(double x_, double a, double b, double h, double k, t_var
 	static double	speed = 0;
 	unsigned int *buffer = (unsigned int *)vars->img->addr;
 	// double p = x_ + (2 * M_PI / b); // attention divison par 0.
+	if (b == 0) // must be b != 0
+		b = 0.25;
 	double thita = b * (x_ - h);
 	double dp = 2* M_PI;
 	
@@ -30,7 +32,7 @@ void    animation_sinus(double x_, double a, double b, double h, double k, t_var
 
 void    animation_sinus_concentrique(double a, double r, double thita, t_vars *vars)
 {
-    double step = 0.01;
+    double step = 0.1;
 	unsigned int *buffer = (unsigned int *)vars->img->addr;
 	const double dp = M_PI * 2;
 	static double ap = 0;

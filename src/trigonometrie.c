@@ -1,4 +1,4 @@
-#include "../fonction_math.h"
+#include "../include/fonction_math.h"
 
 void	f_sin_x(double x_, double a, double b, double h, double k, t_vars *vars)
 {

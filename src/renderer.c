@@ -1,5 +1,25 @@
-#include "../fonction_math.h"
-#include "../grilles.h"
+#include "../include/fonction_math.h"
+
+t_vect cube[8] = {
+    {-1,-1,-1,1}, {1,-1,-1,1},
+    {1,1,-1,1},  {-1,1,-1,1},
+    {-1,-1,1,1}, {1,-1,1,1},
+    {1,1,1,1},   {-1,1,1,1}
+};
+// int triangles[12][3] = {
+//     // Face AVANT (z = -1) - Vue de devant : horaire
+//     {0, 3, 2}, {0, 2, 1},
+//     // Face ARRIÈRE (z = 1) - Vue de derrière : horaire
+//     {5, 6, 7}, {5, 7, 4},
+//     // Face GAUCHE (x = -1)
+//     {4, 7, 3}, {4, 3, 0},
+//     // Face DROITE (x = 1)
+//     {1, 2, 6}, {1, 6, 5},
+//     // Face HAUT (y = 1)
+//     {3, 7, 6}, {3, 6, 2},
+//     // Face BAS (y = -1)
+//     {4, 0, 1}, {4, 1, 5}
+// };
 
 int render_loop(void* core_)
 {
@@ -11,15 +31,18 @@ int render_loop(void* core_)
 	gettimeofday(&start_tv, NULL);
 	t_controller* core = (t_controller*)(core_);
 
-    fill_background(core->vars->img, BLEU_CIEL, core->vars->width, core->vars->height);
-	// grille_point(core);
-	for (double j = core->vars->greed.y_min; j < core->vars->greed.y_max; j += 2)
-		background_sinus(core->vars->greed.x_min, core->vars->fonction.trigo.a, core->vars->fonction.trigo.b,
-			core->vars->fonction.trigo.h, j, NOIR, core->vars);
-	// grille_orthonorme(core);
-	// for (double i = 0; i <= core->vars->greed.x_max; i += 2)
-	// 	background_sinus_concentrique(2, i, core->vars->fonction.trigo.b, core->vars);
-	// drawLine(core->vars->fonction.test.x0, core->vars->fonction.test.y0, core->vars->fonction.test.x1, core->vars->fonction.test.y1, (50 << 16 | 200 << 8 | 13 ), core);
+    fill_background(core->vars->img, BLEU_CIEL);
+	
+	// grille_isometrique(core, BLANC);
+	if (core->vars->id_fonction == -1)
+		for (double j = core->vars->greed.y_min; j < core->vars->greed.y_max; j += 2)
+			background_sinus(core->vars->greed.x_min, core->vars->fonction.trigo.a, core->vars->fonction.trigo.b,
+				core->vars->fonction.trigo.h, j, BLEU, core->vars);
+	else if (core->vars->id_fonction == 0)
+		for (double i = 0; i <= core->vars->greed.x_max; i += 2)
+			background_sinus_concentrique(4, i, core->vars->fonction.trigo.b, BLEU, core->vars);
+	else
+		grille_orthonorme(core);
 
 	if (core->vars->id_fonction == 1)
 		f_ax_plus_b(0, core->vars->fonction.al.a, core->vars->fonction.al.b, core->vars);
@@ -51,8 +74,8 @@ int render_loop(void* core_)
 		f_tan_x(core->vars->fonction.trigo.x, core->vars->fonction.trigo.a, core->vars->fonction.trigo.b,
 			core->vars->fonction.trigo.h, core->vars->fonction.trigo.k, core->vars);
 	else if (core->vars->id_fonction == 14)
-		animation_sinus(core->vars->fonction.trigo.x, core->vars->fonction.trigo.a, core->vars->fonction.trigo.b,
-			core->vars->fonction.trigo.h, core->vars->fonction.trigo.k, core->vars);
+		{animation_sinus(core->vars->fonction.trigo.x, core->vars->fonction.trigo.a, core->vars->fonction.trigo.b,
+			core->vars->fonction.trigo.h, core->vars->fonction.trigo.k, core->vars); if (core->vars->fonction.trigo.b == 0) core->vars->fonction.trigo.b = 0.25;}
 	else if (core->vars->id_fonction == 15)
 		animation_sinus_concentrique(core->vars->fonction.trigo.a, core->vars->fonction.trigo.a, core->vars->fonction.trigo.b, core->vars);
 
@@ -71,8 +94,107 @@ int render_loop(void* core_)
 	sprintf(buff, "FPS: %d", fps);
 	mlx_put_image_to_window(core->mlx, core->vars->win, core->vars->img->img, 0, 0);
 	mlx_string_put(core->mlx, core->vars->win, 0, 20, 0x00000000, buff);
+	sprintf(buff, "Fonction: %d", core->vars->id_fonction);
+	mlx_string_put(core->mlx, core->vars->win, 0, 40, 0x00000000, buff);
 	affiche_param(core);
 	if (t < 20000)
+		usleep(t);
+	return (0);
+}
+
+int render_loop_matrice(void* core_)
+{
+
+    struct timeval 	start_tv;
+    struct timeval 	end_tv;
+	int color[12] = {
+		0x00FF0000, 0x00FF0000, // face avant (rouge)
+		0x0000FF00, 0x0000FF00, // arrière (vert)
+		0x000000FF, 0x000000FF, // bas (bleu)
+		0x00FFFF00, 0x00FFFF00, // haut (jaune)
+		0x00FF00FF, 0x00FF00FF, // droite (magenta)
+		0x0000FFFF, 0x0000FFFF  // gauche (cyan)
+	};
+
+	gettimeofday(&start_tv, NULL);
+	t_controller* core = (t_controller*)(core_);
+    fill_background(core->vars->img, NOIR);
+	for (int y = 0; y < HEIGHT; y++)
+		for (int x = 0; x < WIDTH; x++)
+			core->vars->matrice.zbuffer[y][x] = 1000.0;
+	display_cube(core, cube, color);
+
+	gettimeofday(&end_tv, NULL);
+	int t = diff_time(&start_tv, &end_tv);
+	__int16_t fps = 1000000 / t;
+	printf("time of prosses: %d\n", t);
+	char buff[20];
+	if (t < 20000)
+	{
+		fps = 1000000 / 20000;
+		t = 20000 - t;
+	}
+	sprintf(buff, "FPS: %d", fps);
+	mlx_put_image_to_window(core->mlx, core->vars->win, core->vars->img->img, 0, 0);
+	mlx_string_put(core->mlx, core->vars->win, 0, 20, 0x00FFFF00, buff);
+	if (t < 20000)
+		usleep(t);
+	return (0);
+}
+
+int	render_loop_game_of_life(void* core_)
+{
+
+    struct timeval start_tv;
+    struct timeval end_tv;
+
+	gettimeofday(&start_tv, NULL);
+	t_controller* core = (t_controller*)(core_);
+
+	display_map_game_of_life(core);
+
+	gettimeofday(&end_tv, NULL);
+	int t = diff_time(&start_tv, &end_tv);
+	__int16_t fps = 1000000 / t;
+	// printf("time of prosses: %d\n", t);
+	char buff[20];
+	if (t < 20000)
+	{
+		fps = 1000000 / 20000;
+		t = 20000 - t;
+	}
+	sprintf(buff, "FPS: %d", fps);
+	mlx_put_image_to_window(core->mlx, core->vars->win, core->vars->img->img, 0, 0);
+	mlx_string_put(core->mlx, core->vars->win, 0, 20, 0x00000000, buff);
+	if (t < 20000)
+		usleep(t);
+	return (0);
+}
+
+int	render_loop_game_of_life_generation(void* core_)
+{
+
+    struct timeval start_tv;
+    struct timeval end_tv;
+
+	gettimeofday(&start_tv, NULL);
+	t_controller* core = (t_controller*)(core_);
+
+	generation_game_of_life(&(core->vars->gol));
+	display_map_game_of_life(core);
+	core->vars->gol.start--;
+	if (core->vars->gol.start == 0)
+		mlx_loop_hook(core->mlx, render_loop_game_of_life, core);
+
+	gettimeofday(&end_tv, NULL);
+	int t = diff_time(&start_tv, &end_tv);
+	t = 250000 - t;
+	printf("time of prosses: %d\n", 2);
+	char buff[20];
+	sprintf(buff, "Generation: %d", core->vars->gol.gen - core->vars->gol.start);
+	mlx_put_image_to_window(core->mlx, core->vars->win, core->vars->img->img, 0, 0);
+	mlx_string_put(core->mlx, core->vars->win, 0, 20, 0x00000000, buff);
+	if (t < 250000)
 		usleep(t);
 	return (0);
 }

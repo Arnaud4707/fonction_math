@@ -4,12 +4,13 @@ BRUN   = '\033[0;33m'
 WHITE  = '\033[1;37m'
 RESET  = '\033[0m'
 
-
 NAME = graph
 
-CC = cc 
+CC = cc
 
-HEADER= fonction_math.h color.h grilles.h
+HEADER= include/fonction_math.h include/color.h include/grilles.h \
+		include/matrice.h include/struct_fonction.h include/background.h \
+		include/game_of_life.h include/object.h
 
 CFLAGS = -Wall -Wextra -Werror -I./ #-O3 #-march=native -ffast-math
 
@@ -22,7 +23,8 @@ LIB_MLX = libmlx.a
 SRC_PATH = src/
 
 SRC_DIR = utils.c trigonometrie.c renderer.c functions.c \
-		events.c init.c grilles.c animation.c draw_line.c
+		events.c init.c grilles.c animation.c matrice.c \
+		game_of_life.c
 
 SRC = $(addprefix $(SRC_PATH), $(SRC_DIR))
 
