@@ -13,5 +13,5 @@
 - afficher touche event
 - afficher menu
 
-## ajouter gaeitan
+## ajouter gaetan
 ## ajouter world

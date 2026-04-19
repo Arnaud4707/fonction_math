@@ -24,9 +24,9 @@ LIB_MLX = libmlx.a
 
 SRC_PATH = src/
 
-SRC_DIR = utils.c trigonometrie.c renderer.c functions.c \
-		events.c init.c grilles.c animation.c matrice.c \
-		game_of_life.c
+SRC_DIR = utils.c trigonometrie.c renderer.c functions.c events.c init.c grilles.c \
+		animation.c matrice.c world_3/game_of_life.c world_3/renderer_game_of_life.c \
+		world_3/events_game_of_life.c world_3/init_game_of_life.c
 
 SRC = $(addprefix $(SRC_PATH), $(SRC_DIR))
 

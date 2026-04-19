@@ -4,7 +4,6 @@ int main(void)
 {
 	t_controller core;
 
-	// memset(&core, 0, sizeof(t_controller));
 	core.mlx = mlx_init();
 	core.vars = malloc(sizeof(t_vars));
 	vars_init(core.vars, &core);

@@ -1,4 +1,4 @@
-#include "../include/game_of_life.h"
+#include "../../include/game_of_life.h"
 #include <stdio.h>
 
 void	display_map_game_of_life(t_controller *core)
@@ -17,8 +17,8 @@ void	display_map_game_of_life(t_controller *core)
 			if (core->vars->gol.map[j][i] == 'A')
 				core->vars->gol.buff_color[j][i] = BLANC;
 			else{
-				if (core->vars->gol.map[j][i] != 0){
-					core->vars->gol.buff_color[j][i] = ((r - 35) << 16) | ((g - 35) << 8) | ((b - 35));
+				if (core->vars->gol.map[j][i] != 0 && core->vars->gol.start != 0){
+					core->vars->gol.buff_color[j][i] = ((r - 25) << 16) | ((g - 25) << 8) | ((b - 25));
 					core->vars->gol.map[j][i] += -1;
 				}
 			}
@@ -72,7 +72,7 @@ void	generation_game_of_life(t_game_of_life* gol)
 					g = (gol->buff_color[y][x] >> 8) & 0xFF;
 					b = gol->buff_color[y][x] & 0xFF;
 					tab[y][x] = 3;
-					gol->buff_color[y][x] = ((r - 150) << 16) | ((g - 150) << 8) | ((b - 150));
+					gol->buff_color[y][x] = ((r - 180) << 16) | ((g - 180) << 8) | ((b - 180));
 				}
 				else
 					tab[y][x] = 'A';
