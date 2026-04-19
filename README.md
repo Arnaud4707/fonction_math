@@ -1,7 +1,14 @@
-Multi Usage Graphic ToolBox
+MUGT Multi Usage Graphic ToolBox 
  
 ## Pour clone le depot avec les sub modules
+```
 git clone --recurse-submodules git@github.com:Arnaud4707/fonction_math.git
+```
+
+## Pour clone les sub modules apres avoir git clone
+```
+git submodule update --init --recursive
+```
 
 ## Info
 
