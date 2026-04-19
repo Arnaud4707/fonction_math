@@ -4,7 +4,7 @@
 #include "struct_fonction.h"
 #include "color.h"
 
-void	init_map_game_of_life(int tail, int gen, t_controller *core);
+void	init_map_game_of_life(int tail, t_controller *core);
 void	display_map_game_of_life(t_controller *core);
 int		event_mouse_game_of_life(int button, int x, int y, void *core);
 int		event_key_game_of_life(int key, t_controller *core);

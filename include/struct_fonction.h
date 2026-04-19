@@ -178,8 +178,10 @@ typedef struct s_game_of_life
 	char**	map;
 	int**	buff_color;
 	int		tail_cell;
-	int		gen;
 	int		pen;
+	int		size_pen;
+	int		fps;
+	int		gen;
 	int		start;
 	int		height;
 	int		width;

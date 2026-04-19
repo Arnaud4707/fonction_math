@@ -1,6 +1,6 @@
 #include "../../include/fonction_math.h"
 
-void	init_map_game_of_life(int tail, int gen, t_controller *core)
+void	init_map_game_of_life(int tail, t_controller *core)
 {
 	char**	map;
 	int**	buff_color;
@@ -32,6 +32,8 @@ void	init_map_game_of_life(int tail, int gen, t_controller *core)
 	core->vars->gol.height = y;
 	core->vars->gol.width = x;
 	core->vars->gol.tail_cell = tail;
-	core->vars->gol.gen = gen;
-	core->vars->gol.start = 0;
+	core->vars->gol.fps = 250000;
+	core->vars->gol.gen = 0;
+	core->vars->gol.size_pen = 1;
+	core->vars->gol.start = 1;
 }
