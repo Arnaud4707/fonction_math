@@ -14,7 +14,7 @@ HEADER= include/fonction_math.h include/color.h include/grilles.h \
 
 HEADER_MAIN= core.h
 
-CFLAGS = -Wall -Wextra -Werror -I./ #-O3 #-march=native -ffast-math
+CFLAGS = -Wall -Wextra -Werror #-O3 #-march=native -ffast-math
 
 MAIN = main.c
 
@@ -24,8 +24,11 @@ LIB_MLX = libmlx.a
 
 SRC_PATH = src/
 
-SRC_DIR = utils.c trigonometrie.c renderer.c functions.c events.c init.c grilles.c \
-		animation.c matrice.c world_3/game_of_life.c world_3/renderer_game_of_life.c \
+SRC_DIR = utils.c world/trigonometrie_math.c world/renderer_math.c world/functions_math.c \
+		world/events_math.c world/init_math.c world/animation_math.c \
+		world_2/events_matrix.c world_2/free_matrix.c world_2/init_matrix.c \
+		world_2/matrice_matrix.c world_2/renderer_matrix.c \
+		world_3/game_of_life.c world_3/renderer_game_of_life.c \
 		world_3/events_game_of_life.c world_3/init_game_of_life.c
 
 SRC = $(addprefix $(SRC_PATH), $(SRC_DIR))
@@ -56,7 +59,7 @@ $(MLX):
 	@make -sC $(MLX_PATH)
 	@echo $(GREEN) "MLX Ready" $(RESET)
 
-world_1: $(MLX) $(OBJ) main.c $(HEADER_MAIN)
+world: $(MLX) $(OBJ) main.c $(HEADER_MAIN)
 	$(CC) $(CFLAGS) -c main.c -DWORLD=1 -o $(OBJ_MAIN)
 	$(CC) $(CFLAGS) $(OBJ) $(OBJ_MAIN) $(MLX) -lX11 -lXext -lm -o $(NAME) 
 

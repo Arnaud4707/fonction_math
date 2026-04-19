@@ -1,4 +1,4 @@
-#include "../include/fonction_math.h"
+#include "../../include/fonction_math.h"
 
 
 // void	build_projection_isometrique(t_matrice *m)

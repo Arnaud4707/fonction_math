@@ -6,7 +6,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <sys/time.h>
-#include "mlx/mlx.h"
+#include "../mlx/mlx.h"
 #include "color.h"
 #include "struct_fonction.h"
 #include "matrice.h"
@@ -71,7 +71,7 @@ void	move(double dx, double dy, t_vars *vars);
 
 unsigned	long	diff_time(struct timeval* st, struct timeval* end);
 
-void    init_function(t_controller* core);
+void    init_function_math(t_controller* core);
 void 	vars_init(t_vars *vars, t_controller* control);
 void	f_ax_plus_b(double x_, double a, double b, t_vars* vars);
 

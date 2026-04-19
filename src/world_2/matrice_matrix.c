@@ -1,4 +1,4 @@
-#include "../include/fonction_math.h"
+#include "../../include/fonction_math.h"
 
 void	init_mat_scale(t_mat *m, double scaleX, double scaleY, double scaleZ)
 {

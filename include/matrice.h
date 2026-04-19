@@ -4,12 +4,6 @@
 #include	"struct_fonction.h"
 #define SCALE_XY 1
 #define SCALE_Z 1
-typedef	struct	s_maps	t_maps;
-struct	s_maps
-{
-	char *line;
-	t_maps *next;
-};
 
 t_maps	*init_maps(char *file);
 void	free_maps(t_maps *map);

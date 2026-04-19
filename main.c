@@ -7,16 +7,7 @@ int main(void)
 	core.mlx = mlx_init();
 	core.vars = malloc(sizeof(t_vars));
 	vars_init(core.vars, &core);
-	// {
-	// t_maps* map =  init_maps("42.fdf");
-	// if (!map)
-	// 	return (0);
-	// while (map)
-	// {
-	// 	printf("%s", map->line);
-	// 	map = map->next;
-	// }
-	// free_maps(map);}
+
 	if (WORLD == 1)
 	{
 		mlx_hook(core.vars->win, ON_KEYDOWN, (1L), event_key_fonction, &core);

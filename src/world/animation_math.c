@@ -1,4 +1,4 @@
-#include "../include/fonction_math.h"
+#include "../../include/fonction_math.h"
 
 void    animation_sinus(double x_, double a, double b, double h, double k, t_vars *vars)
 {

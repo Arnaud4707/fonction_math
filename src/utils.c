@@ -21,57 +21,24 @@ int f_close(t_controller *core)
 	return (0);
 }
 
+
+void	vars_init(t_vars *vars, t_controller *core)
+{
+	vars->width = 1200;
+	vars->height = 600;
+	// mlx_get_screen_size(core->mlx, &(vars->width), &(vars->height));
+	vars->win = mlx_new_window(core->mlx, vars->width, vars->height, "MUGT Multi Usage Graphic ToolBox");
+	vars->img = malloc(sizeof(t_data));
+	vars->img->img = mlx_new_image(core->mlx, vars->width, vars->height);
+	vars->img->addr = mlx_get_data_addr(vars->img->img,
+										&(vars->img->bpp), &(vars->img->line_length), &(vars->img->endian));
+	init_function_math(core);
+	init_matrice(&(core->vars->matrice));
+	init_map_game_of_life(10, 60, core);
+}
+
 unsigned long diff_time(struct timeval *st, struct timeval *end)
 {
 	return (((end->tv_sec - st->tv_sec) * 1000000 + (end->tv_usec - st->tv_usec)));
 }
 
-t_maps*		init_maps(char *file)
-{
-	FILE *fd;
-	t_maps *map;
-	char *line = NULL;
-	int read;
-	size_t size = 1000;
-	int size_line;
-	t_maps* head;
-
-	fd = fopen(file, "r");
-	if (!fd)
-		return(NULL);
-	map = malloc(sizeof(t_maps));
-	head = map;
-	read = getline(&line, &size, fd);
-	if (read <= 0)
-	{
-		dprintf(2, "Error: Can't read file\n");
-		return (NULL);
-	}
-	size_line = read;
-	map->line = strdup(line);
-	map->next = NULL;
-	read = getline(&line, &size, fd);
-	while (read == size_line)
-	{
-		map->next = malloc(sizeof(t_maps));
-		map->next->line = strdup(line);
-		map->next->next = NULL;
-		map = map->next;
-		read = getline(&line, &size, fd);
-	}
-	free(line);
-	return (head);
-}
-
-void	free_maps(t_maps* map)
-{
-	t_maps* tmp;
-
-	while (map)
-	{
-		tmp = map->next;
-		free(map->line);
-		free(map);
-		map = tmp;
-	}
-}

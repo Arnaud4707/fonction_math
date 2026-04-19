@@ -166,6 +166,13 @@ typedef struct s_fonction
 	t_test test;
 } t_fonction;
 
+typedef	struct	s_maps	t_maps;
+struct	s_maps
+{
+	char *line;
+	t_maps *next;
+};
+
 typedef struct s_game_of_life
 {
 	char**	map;
