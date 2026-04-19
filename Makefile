@@ -10,7 +10,7 @@ CC = cc
 
 HEADER= include/fonction_math.h include/color.h include/grilles.h \
 		include/matrice.h include/struct_fonction.h include/background.h \
-		include/game_of_life.h include/object.h
+		include/game_of_life.h include/object.h include/matrice_fonction.h
 
 CFLAGS = -Wall -Wextra -Werror -I./ #-O3 #-march=native -ffast-math
 

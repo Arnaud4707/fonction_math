@@ -37,6 +37,24 @@ void	generation_game_of_life(t_game_of_life* gol)
 
 	char tab[gol->height][gol->width];
 
+	// for (int y = 0; y < gol->height; y++){
+	// 	for (int x = 0; x < gol->width; x++){
+	// 		if (x != 0 && gol->map[y][x - 1] == 'A'){
+	// 			v++;
+	// 		}
+	// 		if (y != 0 && gol->map[y - 1][x] == 'A'){
+	// 			v++;
+	// 		}
+	// 		if (x != 0 && y != 0 && gol->map[y - 1][x - 1] == 'A'){
+	// 			v++;
+	// 		}
+	// 		if (x != endX && gol->map[y][x - 1] == 'A'){
+	// 			v++;
+	// 		}
+
+	// 	}
+	// }
+
 	for (int y = 0; y < gol->height; y++){
 		for (int x = 0; x < gol->width; x++){
 			if (y == 0 && x == 0){ // h g
@@ -84,7 +102,7 @@ void	generation_game_of_life(t_game_of_life* gol)
 				}
 			}
 			else if (y == 0 && x < endX){ // h h
-				
+				// 
 				if (gol->map[y][x - 1] == 'A')
 					v++;
 				if (gol->map[y][x + 1] == 'A')

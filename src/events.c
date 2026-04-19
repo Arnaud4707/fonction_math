@@ -55,9 +55,8 @@ int event_key_matrice(int key, t_controller* core)
 			core->vars->matrice.mode = 1;
 			init_projection_ortho(&(core->vars->matrice.mat_projection), -10, 10, -10, 10, 0.1, 100);
 		}
-		build_matrix_view_fps(&(core->vars->matrice.mat_view), &( core->vars->matrice.cam));
 	}
-	if ((key >= 97 && key <= 122) || (key == 65361 || key == 65363))
+	if (key >= 97 && key <= 122)
 	{
 		change_param_matrice(key, core);
 	}
@@ -108,7 +107,6 @@ int 	event_key_game_of_life(int key, t_controller* core)
 			mlx_loop_hook(core->mlx, render_loop_game_of_life_generation, core);
 		}
 	}
-	// printf("key = %i\n", key);
 	return(0);
 }
 
@@ -121,7 +119,6 @@ int		event_mose_move_gol_pen(int x, int y, void* core_)
 		core->vars->gol.map[j][i] = 'A';
 	else if (core->vars->gol.pen == -1)
 		core->vars->gol.map[j][i] = 'D';
-	printf("x = %i; y = %i\n", i, j);
 	return (0);
 }
 
@@ -129,9 +126,6 @@ int		event_mouse_game_of_life(int button, int x, int y, void* core_)
 {
 	t_controller* core = (t_controller*)(core_);
 	(void)core;(void)x;(void)y;
-	int i = x / core->vars->gol.tail_cell;
-	int j = y / core->vars->gol.tail_cell;
-	printf("button = %i; x = %i; y = %i\n", button, i, j);
 	if (button == 1)
 	{
 		if (core->vars->gol.pen != 1)
@@ -155,63 +149,73 @@ void	change_param_matrice(int key, t_controller* core)
 	if (key == 97) //avancer
 	{
 		move_forward_fps(&(core->vars->matrice.cam), -0.5);
+		build_matrix_view_fps(&(core->vars->matrice.mat_view), &(core->vars->matrice.cam));
 	}
 	else if (key == 101)
 	{
 		move_forward_fps(&(core->vars->matrice.cam), 0.5);
+		build_matrix_view_fps(&(core->vars->matrice.mat_view), &(core->vars->matrice.cam));
 	}
 	else if (key == 113)
 	{
 		move_right_fps(&(core->vars->matrice.cam), -0.5);
+		build_matrix_view_fps(&(core->vars->matrice.mat_view), &(core->vars->matrice.cam));
 	}
 	else if (key == 100)
 	{
 		move_right_fps(&(core->vars->matrice.cam), 0.5);
+		build_matrix_view_fps(&(core->vars->matrice.mat_view), &(core->vars->matrice.cam));
 	}
 	else if (key == 119)
 	{
 		move_up(&(core->vars->matrice.cam), -0.5);
+		build_matrix_view_fps(&(core->vars->matrice.mat_view), &(core->vars->matrice.cam));
 	}
 	else if (key == 99)
 	{
 		move_up(&(core->vars->matrice.cam), 0.5);
+		build_matrix_view_fps(&(core->vars->matrice.mat_view), &(core->vars->matrice.cam));
 	}
 	else if (key == 116)
 	{
 		core->vars->matrice.angles.angleY -= angle_object;
 		init_mat_rotate_y(&(core->vars->matrice.mat_rotateY), core->vars->matrice.angles.angleY);
+		build_matrix_world(&(core->vars->matrice));
 	}
 	else if (key == 121)
 	{
 		core->vars->matrice.angles.angleY += angle_object;
 		init_mat_rotate_y(&(core->vars->matrice.mat_rotateY), core->vars->matrice.angles.angleY);
+		build_matrix_world(&(core->vars->matrice));
 	}
 	else if (key == 102)
 	{
 		core->vars->matrice.angles.angleX -= angle_object;
 		init_mat_rotate_x(&(core->vars->matrice.mat_rotateX), core->vars->matrice.angles.angleX);
+		build_matrix_world(&(core->vars->matrice));
 	}
 	else if (key == 103)
 	{
 		core->vars->matrice.angles.angleX += angle_object;
 		init_mat_rotate_x(&(core->vars->matrice.mat_rotateX), core->vars->matrice.angles.angleX);
+		build_matrix_world(&(core->vars->matrice));
 	}
 	else if (key == 98)
 	{
 		core->vars->matrice.angles.angleZ -= angle_object;
 		init_mat_rotate_z(&(core->vars->matrice.mat_rotateZ), core->vars->matrice.angles.angleZ);
+		build_matrix_world(&(core->vars->matrice));
 	}
 	else if (key == 110)
 	{
 		core->vars->matrice.angles.angleZ += angle_object;
 		init_mat_rotate_z(&(core->vars->matrice.mat_rotateZ), core->vars->matrice.angles.angleZ);
+		build_matrix_world(&(core->vars->matrice));
 	}
 	if (core->vars->matrice.mode == 1)
 		init_projection_ortho(&(core->vars->matrice.mat_projection), -10, 10, -10, 10, 0.1, 100);
 	else
 		init_project_perspective(&(core->vars->matrice.mat_projection), M_PI / 3, (double)WIDTH / HEIGHT, 1000.0, 0.1);
-	build_matrix_world(&(core->vars->matrice));
-	build_matrix_view_fps(&(core->vars->matrice.mat_view), &(core->vars->matrice.cam));
 }
 
 void	change_param_trigo(int key, t_controller* core)

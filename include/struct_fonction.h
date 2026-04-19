@@ -195,7 +195,7 @@ typedef struct s_game_of_life
  *
  * @param	scale_w		Le rapport entre la largeur fenêtre et celle de la grille.
  * 
- * @param	world		Le projet afficher, ça peut etre des graph, projection, automate cellulaire...
+ * @param	world		Le projet afficher, 1. Graph; 2. Moteur 3D; 3. Game Of Life
  *
  * @param	gol			La structure de automate cellulaire Game Of Life.
  * 
@@ -232,7 +232,7 @@ struct s_vars
  * @struct	t_controller
  *
  * @brief	Structure de controle du programme.
- *
+ * 
  * @param	mlx		Pointeur alloué par la mlx, connexion entre le programme et X11.
  *
  * @param	vars	Structure t_vars pour une 1ère fenêtre.

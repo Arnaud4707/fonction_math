@@ -10,11 +10,6 @@ void	vars_init(t_vars *vars, t_controller *core)
 	vars->greed.y_min = -25;
 	vars->greed.y_max = 25;
 	vars->world = 2;
-	if (vars->world == 3)
-	{
-		vars->width = 700;
-		vars->height = 700;
-	}
 	vars->id_fonction = 0;
 	vars->nb_fonction = 15;
 	vars->greed.scale_x = vars->greed.x_max - vars->greed.x_min;
@@ -28,7 +23,7 @@ void	vars_init(t_vars *vars, t_controller *core)
 										&(vars->img->bpp), &(vars->img->line_length), &(vars->img->endian));
 	init_function(core);
 	init_matrice(&(core->vars->matrice));
-	init_map_game_of_life(100, 100, 60, core);
+	init_map_game_of_life(10, 60, core);
 }
 
 void	init_function(t_controller *core)
@@ -70,7 +65,7 @@ void	init_param_cam_lookat(t_camera* cam)
 
 void	init_matrice(t_matrice *matrice)
 {
-	matrice->mode = 1; // 1: isométrie 2: perspective
+	matrice->mode = 2; // 1: isométrie 2: perspective
 	matrice->offsetX = WIDTH / 2;
 	matrice->offsetY = HEIGHT / 2;
 	matrice->scale.scaleXY = 1;
@@ -95,19 +90,21 @@ void	init_matrice(t_matrice *matrice)
 	build_matrix_view_fps(&(matrice->mat_view), &( matrice->cam));
 }
 
-void	init_map_game_of_life(int nb_caseX, int nb_caseY, int gen,t_controller *core)
+void	init_map_game_of_life(int tail, int gen, t_controller *core)
 {
 	char **map;
 
-	map = malloc(nb_caseY * (sizeof(char *)));
+	int y = core->vars->height / tail;
+		int x = core->vars->width / tail;
+	map = malloc(y * (sizeof(char *)));
 	if (!map)
 		return;
 	int i = 0;
-	while (i < nb_caseY)
+	while (i < y)
 	{
-		map[i] = malloc(nb_caseX * sizeof(char));
+		map[i] = malloc(x * sizeof(char));
 		int j = 0;
-		while (j < nb_caseX)
+		while (j < x)
 		{
 			map[i][j] = 'D';
 			j++;
@@ -115,9 +112,9 @@ void	init_map_game_of_life(int nb_caseX, int nb_caseY, int gen,t_controller *cor
 		i++;
 	}
 	core->vars->gol.map = map;
-	core->vars->gol.height = nb_caseY;
-	core->vars->gol.width = nb_caseX;
-	core->vars->gol.tail_cell = core->vars->width / nb_caseX;
+	core->vars->gol.height = y;
+	core->vars->gol.width = x;
+	core->vars->gol.tail_cell = tail;
 	core->vars->gol.gen = gen;
 	core->vars->gol.start = 0;
 }

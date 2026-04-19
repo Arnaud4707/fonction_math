@@ -13,7 +13,7 @@ struct	s_maps
 
 t_maps	*init_maps(char *file);
 void	free_maps(t_maps *map);
-void	display_cube(t_controller *core, t_vect object[8], int color[12]);
+void	display_cube(t_controller *core, t_vect object[8], int color[6]);
 void	change_param_matrice(int key, t_controller* core);
 void	init_matrice(t_matrice* matrice);
 void	init_mat_identite(t_mat *mat);
@@ -41,55 +41,5 @@ t_vect	get_right(t_vect forward);
 void	init_mat_translation(t_mat *m, double x, double y, double z);
 int		render_loop_matrice(void* core_);
 int		apply_shading(int color, double intensity);
-
-static inline double edge(t_vect a, t_vect b, t_vect c)
-{
-	return (c.x - a.x)*(b.y - a.y) - (c.y - a.y)*(b.x - a.x);
-}
-
-static inline void draw_triangle(t_vect v0, t_vect v1, t_vect v2, int color, t_controller *core)
-{
-	unsigned int* buff = (unsigned int*)(core->vars->img->addr);
-
-	double area = edge(v0, v1, v2);
-	if (area == 0) return; // triangle dégénéré
-
-	int minX = fmax(0, floor(fmin(v0.x, fmin(v1.x, v2.x))));
-	int maxX = fmin(WIDTH-1, ceil(fmax(v0.x, fmax(v1.x, v2.x))));
-	int minY = fmax(0, floor(fmin(v0.y, fmin(v1.y, v2.y))));
-	int maxY = fmin(HEIGHT-1, ceil(fmax(v0.y, fmax(v1.y, v2.y))));
-
-	for (int y = minY; y <= maxY; y++)
-	{
-		for (int x = minX; x <= maxX; x++)
-		{
-			t_vect p = {x + 0.5, y + 0.5, 0, 1};
-
-			double w0 = edge(v1, v2, p);
-			double w1 = edge(v2, v0, p);
-			double w2 = edge(v0, v1, p);
-
-			// test inside robuste
-			if ((w0 >= 0 && w1 >= 0 && w2 >= 0 && area > 0) ||
-				(w0 <= 0 && w1 <= 0 && w2 <= 0 && area < 0))
-			{
-				// normalisation barycentrique
-				w0 /= area;
-				w1 /= area;
-				w2 /= area;
-
-				// interpolation profondeur
-				double w_inv = w0*v0.w + w1*v1.w + w2*v2.w; // Interpolation de 1/W
-				double z = 1.0 / w_inv;
-
-				if ( z < core->vars->matrice.zbuffer[y][x])
-				{
-					core->vars->matrice.zbuffer[y][x] = z;
-					buff[y * WIDTH + x] = color;
-				}
-			}
-		}
-	}
-}
 
 #endif

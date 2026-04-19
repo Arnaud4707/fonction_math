@@ -12,3 +12,6 @@
 ## affichage d'information
 - afficher touche event
 - afficher menu
+
+## ajouter gaeitan
+## ajouter world

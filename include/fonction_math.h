@@ -10,6 +10,7 @@
 #include "color.h"
 #include "struct_fonction.h"
 #include "matrice.h"
+#include "matrice_fonction.h"
 #include "background.h"
 #include "grilles.h"
 #include "object.h"
