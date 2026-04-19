@@ -115,10 +115,14 @@ int		event_mose_move_gol_pen(int x, int y, void* core_)
 	t_controller*	core = (t_controller*)(core_);
 	int i = x / core->vars->gol.tail_cell;
 	int j = y / core->vars->gol.tail_cell;
-	if (core->vars->gol.pen == 1)
+	if (core->vars->gol.pen == 1){
 		core->vars->gol.map[j][i] = 'A';
-	else if (core->vars->gol.pen == -1)
-		core->vars->gol.map[j][i] = 'D';
+		core->vars->gol.buff_color[j][i] = BLANC;
+	}
+	else if (core->vars->gol.pen == -1){
+		core->vars->gol.map[j][i] = 0;
+		core->vars->gol.buff_color[j][i] = NOIR;
+	}
 	return (0);
 }
 

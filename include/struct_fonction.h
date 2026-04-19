@@ -169,6 +169,7 @@ typedef struct s_fonction
 typedef struct s_game_of_life
 {
 	char**	map;
+	int**	buff_color;
 	int		tail_cell;
 	int		gen;
 	int		pen;

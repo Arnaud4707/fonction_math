@@ -19,7 +19,6 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 
-
 enum {
 	ON_KEYDOWN = 2,
 	ON_KEYUP = 3,
@@ -67,7 +66,6 @@ int		render_loop(void* core_);
 void	zoom(int a, t_controller* core);
 void	arrow(int key, t_controller* core);
 void	change_param_trigo(int key, t_controller* core);
-void	change_a_in_test(int key, t_controller* core);
 void	change_param_algebre(int key, t_controller* core);
 void	move(double dx, double dy, t_vars *vars);
 

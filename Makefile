@@ -4,13 +4,15 @@ BRUN   = '\033[0;33m'
 WHITE  = '\033[1;37m'
 RESET  = '\033[0m'
 
-NAME = graph
+NAME = boxtool
 
 CC = cc
 
 HEADER= include/fonction_math.h include/color.h include/grilles.h \
 		include/matrice.h include/struct_fonction.h include/background.h \
 		include/game_of_life.h include/object.h include/matrice_fonction.h
+
+HEADER_MAIN= core.h
 
 CFLAGS = -Wall -Wextra -Werror -I./ #-O3 #-march=native -ffast-math
 
@@ -42,18 +44,29 @@ $(OBJ_PATH)%.o: $(SRC_PATH)%.c $(HEADER)
 	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) -c $< -o $@
 
-$(NAME): $(MLX) $(OBJ) $(OBJ_MAIN) 
+$(NAME): $(MLX) $(OBJ) main.c $(HEADER_MAIN)
+	$(CC) $(CFLAGS) -c main.c -DWORLD=3 -o $(OBJ_MAIN)
 	$(CC) $(CFLAGS) $(OBJ) $(OBJ_MAIN) $(MLX) -lX11 -lXext -lm -o $(NAME) 
 
 all: $(NAME)
 
-$(OBJ_MAIN): main.c  $(HEADER)
-	$(CC) $(CFLAGS) -c main.c -o $(OBJ_MAIN)
 
 $(MLX):
 	@echo $(BRUN) "Compiling mlx..."$(RESET)
 	@make -sC $(MLX_PATH)
 	@echo $(GREEN) "MLX Ready" $(RESET)
+
+world_1: $(MLX) $(OBJ) main.c $(HEADER_MAIN)
+	$(CC) $(CFLAGS) -c main.c -DWORLD=1 -o $(OBJ_MAIN)
+	$(CC) $(CFLAGS) $(OBJ) $(OBJ_MAIN) $(MLX) -lX11 -lXext -lm -o $(NAME) 
+
+world_2: $(MLX) $(OBJ) main.c $(HEADER_MAIN)
+	$(CC) $(CFLAGS) -c main.c -DWORLD=2 -o $(OBJ_MAIN)
+	$(CC) $(CFLAGS) $(OBJ) $(OBJ_MAIN) $(MLX) -lX11 -lXext -lm -o $(NAME) 
+
+world_3: $(MLX) $(OBJ) main.c $(HEADER_MAIN)
+	$(CC) $(CFLAGS) -c main.c -DWORLD=3 -o $(OBJ_MAIN)
+	$(CC) $(CFLAGS) $(OBJ) $(OBJ_MAIN) $(MLX) -lX11 -lXext -lm -o $(NAME) 
 
 clean:
 	@echo $(RED) "Delate main.o" $(RESET)

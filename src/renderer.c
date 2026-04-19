@@ -166,7 +166,6 @@ int	render_loop_game_of_life(void* core_)
 	gettimeofday(&end_tv, NULL);
 	int t = diff_time(&start_tv, &end_tv);
 	__int16_t fps = 1000000 / t;
-	// printf("time of prosses: %d\n", t);
 	char buff[20];
 	if (t < 20000)
 	{
@@ -175,7 +174,9 @@ int	render_loop_game_of_life(void* core_)
 	}
 	mlx_put_image_to_window(core->mlx, core->vars->win, core->vars->img->img, 0, 0);
 	sprintf(buff, "FPS: %d", fps);
-	mlx_string_put(core->mlx, core->vars->win, 0, 20, 0x00000000, buff);
+	mlx_string_put(core->mlx, core->vars->win, 0, 20, 0x00FFFFFF, buff);
+	sprintf(buff, "Generation: %d", 0);
+	mlx_string_put(core->mlx, core->vars->win, 0, 40, 0x00FFFFFF, buff);
 	if (t < 20000)
 		usleep(t);
 	return (0);
@@ -198,15 +199,14 @@ int	render_loop_game_of_life_generation(void* core_)
 
 	gettimeofday(&end_tv, NULL);
 	int t = diff_time(&start_tv, &end_tv);
-	printf("time of prosses: %d\n", t);
 	t = 250000 - t;
 	int fps = 1000000 / t;
 	char buff[20];
 	sprintf(buff, "Generation: %d", core->vars->gol.gen - core->vars->gol.start);
 	mlx_put_image_to_window(core->mlx, core->vars->win, core->vars->img->img, 0, 0);
-	mlx_string_put(core->mlx, core->vars->win, 0, 40, 0x00000000, buff);
+	mlx_string_put(core->mlx, core->vars->win, 0, 40, 0x00FFFFFF, buff);
 	sprintf(buff, "FPS: %d", fps);
-	mlx_string_put(core->mlx, core->vars->win, 0, 20, 0x00000000, buff);
+	mlx_string_put(core->mlx, core->vars->win, 0, 20, 0x00FFFFFF, buff);
 	if (t < 250000)
 		usleep(t);
 	return (0);

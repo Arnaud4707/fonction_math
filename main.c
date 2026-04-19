@@ -1,5 +1,4 @@
-#include "include/fonction_math.h"
-#include "include/matrice.h"
+#include "core.h"
 
 int main(void)
 {
@@ -19,12 +18,12 @@ int main(void)
 	// 	map = map->next;
 	// }
 	// free_maps(map);}
-	if (core.vars->world == 1)
+	if (WORLD == 1)
 	{
 		mlx_hook(core.vars->win, ON_KEYDOWN, (1L), event_key_fonction, &core);
 		mlx_loop_hook(core.mlx, render_loop, &core);
 	}
-	else if (core.vars->world == 2)
+	else if (WORLD == 2)
 	{
 		mlx_hook(core.vars->win, ON_KEYDOWN, (1L), event_key_matrice, &core);
 		mlx_hook(core.vars->win, ON_MOUSEMOVE, (1L << 6), event_mouse_move_matrix_rotation, &core);

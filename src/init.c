@@ -9,7 +9,6 @@ void	vars_init(t_vars *vars, t_controller *core)
 	vars->greed.x_max = 50;
 	vars->greed.y_min = -25;
 	vars->greed.y_max = 25;
-	vars->world = 2;
 	vars->id_fonction = 0;
 	vars->nb_fonction = 15;
 	vars->greed.scale_x = vars->greed.x_max - vars->greed.x_min;
@@ -78,7 +77,7 @@ void	init_matrice(t_matrice *matrice)
 	init_mat_rotate_y(&(matrice->mat_rotateY), matrice->angles.angleY);
 	init_mat_rotate_z(&(matrice->mat_rotateZ), matrice->angles.angleZ);
 	init_mat_scale(&(matrice->mat_scale), matrice->scale.scaleXY, matrice->scale.scaleXY, matrice->scale.scaleZ);
-	init_mat_translation(&(matrice->mat_translation), 0, 0, -10);
+	init_mat_translation(&(matrice->mat_translation), 0, 0, 0);
 	build_matrix_world(matrice);
 	matrice->cam.pitch = 10 * M_PI / 180.0;
 	matrice->cam.yaw = 10 * M_PI / 180.0;
@@ -92,26 +91,32 @@ void	init_matrice(t_matrice *matrice)
 
 void	init_map_game_of_life(int tail, int gen, t_controller *core)
 {
-	char **map;
-
+	char**	map;
+	int**	buff_color;
 	int y = core->vars->height / tail;
-		int x = core->vars->width / tail;
+	int x = core->vars->width / tail;
 	map = malloc(y * (sizeof(char *)));
 	if (!map)
+		return;
+	buff_color = malloc(y * (sizeof(int *)));
+	if (!buff_color)
 		return;
 	int i = 0;
 	while (i < y)
 	{
 		map[i] = malloc(x * sizeof(char));
+		buff_color[i] = malloc(x * sizeof(int));
 		int j = 0;
 		while (j < x)
 		{
-			map[i][j] = 'D';
+			map[i][j] = 0;
+			buff_color[i][j] = 0x00000000;
 			j++;
 		}
 		i++;
 	}
 	core->vars->gol.map = map;
+	core->vars->gol.buff_color = buff_color;
 	core->vars->gol.height = y;
 	core->vars->gol.width = x;
 	core->vars->gol.tail_cell = tail;
