@@ -6,8 +6,8 @@ void	init_function_math(t_controller *core)
 	core->vars->greed.x_max = 50;
 	core->vars->greed.y_min = -25;
 	core->vars->greed.y_max = 25;
-	core->vars->id_fonction = 0;
-	core->vars->nb_fonction = 15;
+	core->vars->id_fonction = 16;
+	core->vars->nb_fonction = 16;
 	core->vars->greed.scale_x = core->vars->greed.x_max - core->vars->greed.x_min;
 	core->vars->greed.scale_y = core->vars->greed.y_max - core->vars->greed.y_min;
 	core->vars->scale_h = core->vars->height / core->vars->greed.scale_y;
@@ -21,8 +21,11 @@ void	init_function_math(t_controller *core)
 	core->vars->fonction.al.b = 1.3;
 	core->vars->fonction.al.c = 1;
 	core->vars->fonction.al.d = 1;
-	core->vars->fonction.test.x0 = 0;
-	core->vars->fonction.test.x1 = 100;
-	core->vars->fonction.test.y0 = 0;
-	core->vars->fonction.test.y1 = 100;
+	core->vars->fonction.besier.ax = 0;
+	core->vars->fonction.besier.ay = 0;
+	core->vars->fonction.besier.bx = 20;
+	core->vars->fonction.besier.by = 20;
+	core->vars->fonction.besier.cx = 5;
+	core->vars->fonction.besier.cy = 0;
+
 }

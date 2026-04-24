@@ -33,13 +33,15 @@ typedef struct s_trigo
 	double k;
 } t_trigo;
 
-typedef struct s_test
+typedef struct s_besier
 {
-	int x0;
-	int x1;
-	int y0;
-	int y1;
-} t_test;
+	double ax;
+	double ay;
+	double bx;
+	double by;
+	double cx;
+	double cy;
+} t_besier;
 
 typedef struct s_algebre
 {
@@ -100,13 +102,15 @@ typedef struct s_scale
 	double	scaleZ;
 }	t_scale;
 
-typedef struct vect
+typedef struct vect t_vect;
+struct vect
 {
 	double x;
 	double y;
 	double z;
 	double w;
-}	t_vect;
+    // double intensity;
+};
 
 typedef	struct s_screen_point
 {
@@ -133,6 +137,31 @@ typedef	struct s_angles
 	double	angleZ;
 }	t_angles;
 
+typedef struct s_vertex
+{
+	t_vect	screen;    // position écran après projection
+	t_vect	view;      // position en view space
+	t_vect	normal;    // normale par sommet
+	double	depth;     // profondeur positive = -view.z
+	double	inv_w;     // 1 / w pour correction perspective
+	double	intensity; // lumière au sommet
+}	t_vertex;
+
+typedef	struct	s_maps	t_maps;
+struct	s_maps
+{
+	int**	map;
+	int		height;
+	int		width;
+};
+
+typedef struct s_objet_map
+{
+	int	**map;
+	int	size_x;
+	int	size_y;
+}	t_objet_map;
+
 typedef	struct s_matrice
 {
 	t_mat		mat_scale;
@@ -150,6 +179,8 @@ typedef	struct s_matrice
 	t_scale 	scale;
 	t_camera	cam;
 	t_angles	angles;
+	t_objet_map	maps;
+	t_maps		fdf;
 }	t_matrice;
 
 /**
@@ -163,15 +194,8 @@ typedef struct s_fonction
 {
 	t_trigo trigo;
 	t_algebre al;
-	t_test test;
+	t_besier besier;
 } t_fonction;
-
-typedef	struct	s_maps	t_maps;
-struct	s_maps
-{
-	char *line;
-	t_maps *next;
-};
 
 typedef struct s_game_of_life
 {

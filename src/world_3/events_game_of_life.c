@@ -28,7 +28,7 @@ int 	event_key_game_of_life(int key, t_controller* core)
 	}
 	else if (key == 'a')
 	{
-		if (core->vars->gol.size_pen < 2)
+		if (core->vars->gol.size_pen < 3)
 			core->vars->gol.size_pen += 1;
 	}
 	else if (key == 'z')
@@ -49,7 +49,7 @@ int		event_mose_move_gol_pen(int x, int y, void* core_)
 	if (core->vars->gol.pen == 1){
 		core->vars->gol.map[y][x] = 'A';
 		core->vars->gol.buff_color[y][x] = BLANC;
-		if (core->vars->gol.size_pen == 2){
+		if (core->vars->gol.size_pen >= 2){
 			if (x + 1 < core->vars->gol.width){
 				core->vars->gol.map[y][x + 1] = 'A';
 				core->vars->gol.buff_color[y][x + 1] = BLANC;
@@ -63,11 +63,33 @@ int		event_mose_move_gol_pen(int x, int y, void* core_)
 				core->vars->gol.buff_color[y + 1][x + 1] = BLANC;
 			}
 		}
+		if (core->vars->gol.size_pen == 3){
+			if (x + 1 < core->vars->gol.width && y - 1 >= 0){
+				core->vars->gol.map[y - 1][x + 1] = 'A';
+				core->vars->gol.buff_color[y - 1][x + 1] = BLANC;
+			}
+			if ((y - 1) >= 0){
+				core->vars->gol.map[y - 1][x] = 'A';
+				core->vars->gol.buff_color[y - 1][x] = BLANC;
+			}
+			if ((x - 1) >= 0 && (y - 1) >= 0){
+				core->vars->gol.map[y - 1][x - 1] = 'A';
+				core->vars->gol.buff_color[y - 1][x - 1] = BLANC;
+			}
+			if ((x - 1) >= 0){
+				core->vars->gol.map[y][x - 1] = 'A';
+				core->vars->gol.buff_color[y][x - 1] = BLANC;
+			}
+			if ((y + 1) < core->vars->gol.height && x - 1 >= 0){
+				core->vars->gol.map[y + 1][x - 1] = 'A';
+				core->vars->gol.buff_color[y + 1][x - 1] = BLANC;
+			}
+		}
 	}
 	else if (core->vars->gol.pen == -1){
 		core->vars->gol.map[y][x] = 0;
 		core->vars->gol.buff_color[y][x] = NOIR;
-		if (core->vars->gol.size_pen == 2){
+		if (core->vars->gol.size_pen >= 2){
 			if (x + 1 < core->vars->gol.width){
 				core->vars->gol.map[y][x + 1] = 0;
 				core->vars->gol.buff_color[y][x + 1] = NOIR;
@@ -79,6 +101,28 @@ int		event_mose_move_gol_pen(int x, int y, void* core_)
 			if ((x + 1) < core->vars->gol.width && (y + 1) < core->vars->gol.height){
 				core->vars->gol.map[y + 1][x + 1] = 0;
 				core->vars->gol.buff_color[y + 1][x + 1] = NOIR;
+			}
+		}
+		if (core->vars->gol.size_pen == 3){
+			if (x + 1 < core->vars->gol.width && y - 1 >= 0){
+				core->vars->gol.map[y - 1][x + 1] = 0;
+				core->vars->gol.buff_color[y - 1][x + 1] = NOIR;
+			}
+			if ((y - 1) >= 0){
+				core->vars->gol.map[y - 1][x] = 0;
+				core->vars->gol.buff_color[y - 1][x] = NOIR;
+			}
+			if ((x - 1) >= 0 && (y - 1) >= 0){
+				core->vars->gol.map[y - 1][x - 1] = 0;
+				core->vars->gol.buff_color[y - 1][x - 1] = NOIR;
+			}
+			if ((x - 1) >= 0){
+				core->vars->gol.map[y][x - 1] = 0;
+				core->vars->gol.buff_color[y][x - 1] = NOIR;
+			}
+			if ((y + 1) < core->vars->gol.height && x - 1 >= 0){
+				core->vars->gol.map[y + 1][x - 1] = 0;
+				core->vars->gol.buff_color[y + 1][x - 1] = NOIR;
 			}
 		}
 	}

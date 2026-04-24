@@ -188,3 +188,52 @@ void f_diff_ax_plus_b(double x_, double a, double b, double c, t_vars *vars)
 		x_ += step;
 	}
 }
+
+
+void	f_courbe_besiers_2(double ax, double ay, double bx, double by, t_vars *vars)
+{
+	unsigned int* buffer = (unsigned int*)vars->img->addr;
+	double t = 0;
+
+	while (t < 1.0)
+	{
+		double x_ = (1 - t) * ax  + (bx * t);
+		double y_ = (1 - t) * ay  + (by * t);
+		
+		int x = (int)((x_ - vars->greed.x_min) * vars->scale_w);
+		int y = (int)((vars->greed.y_max - y_) * vars->scale_h);
+
+		if (x >= 0 && x < vars->width && y >= 0 && y < vars->height)
+			buffer[y * vars->width + x] = 0x00FF0000;
+		t += 0.001;
+	}
+}
+
+void	f_courbe_besiers_3(double ax, double ay, double bx, double by, double cx, double cy, t_vars *vars)
+{
+	unsigned int* buffer = (unsigned int*)vars->img->addr;
+	double t = 0;
+
+	while (t < 1.0)
+	{
+		double x_ = ((1 - t) * (1 - t)) * ax  + (2 * t *(1 - t) * bx) + (cx * t * t);
+		double y_ = ((1 - t) * (1 - t)) * ay  + (2 * t *(1 - t) * by) + (cy * t * t);
+		
+		int x = (int)((x_ - vars->greed.x_min) * vars->scale_w);
+		int y = (int)((vars->greed.y_max - y_) * vars->scale_h);
+
+		if (x >= 0 && x < vars->width && y >= 0 && y < vars->height)
+			buffer[y * vars->width + x] = 0x00FF0000;
+		t += 0.0001;
+	}
+
+	int x = (int)((bx - vars->greed.x_min) * vars->scale_w);
+	int y = (int)((vars->greed.y_max - by) * vars->scale_h);
+	for (int j = - 1; j <= 1; j++){
+		for (int i = -1; i <= 1; i++){
+		if (x + i >= 0 && x + i < vars->width && y + j >= 0 && y + j < vars->height)
+			buffer[(y + j) * vars->width + x + i] = 0x000000FF;
+		}
+	}
+
+}

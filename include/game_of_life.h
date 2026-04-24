@@ -4,6 +4,7 @@
 #include "struct_fonction.h"
 #include "color.h"
 
+#define TAIL 2
 void	init_map_game_of_life(int tail, t_controller *core);
 void	display_map_game_of_life(t_controller *core);
 int		event_mouse_game_of_life(int button, int x, int y, void *core);

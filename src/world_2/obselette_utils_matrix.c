@@ -1,16 +1,6 @@
 #include "../../include/fonction_math.h"
 
 
-// void	build_projection_isometrique(t_matrice *m)
-// {
-// 	t_mat tmp;
-
-// 	tmp = mul_mat_mat(&(m->mat_rotateZ), &(m->mat_scale));
-// 	tmp = mul_mat_mat(&(m->mat_rotateY), &tmp);
-// 	m->mat_world = mul_mat_mat(&(m->mat_rotateX), &tmp);
-// }
-
-
 // void	init_matrix_view(t_mat *m, double cx, double cy, double cz)
 // {
 // 	init_mat_identite(m);
@@ -167,9 +157,4 @@ void	display_cube(t_controller *core, t_vect object[8], int color, double zbuffe
 }
 
 
-static	inline	void	projection_iso(t_mat* transfo, t_vect* coord, t_screen_point* proj)
-{
-	proj->x = transfo->mat[0][0] * coord->x + transfo->mat[0][1] * coord->y + transfo->mat[0][2] * coord->z;
-	proj->y = transfo->mat[1][0] * coord->x + transfo->mat[1][1] * coord->y + transfo->mat[1][2] * coord->z;
-}
 */

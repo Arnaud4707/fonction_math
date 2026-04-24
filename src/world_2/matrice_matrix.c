@@ -1,5 +1,14 @@
 #include "../../include/fonction_math.h"
 
+void	build_projection_isometrique(t_matrice *m)
+{
+	t_mat tmp;
+
+	tmp = mul_mat_mat(&(m->mat_rotateZ), &(m->mat_scale));
+	tmp = mul_mat_mat(&(m->mat_rotateY), &tmp);
+	m->mat_world = mul_mat_mat(&(m->mat_rotateX), &tmp);
+}
+
 void	init_mat_scale(t_mat *m, double scaleX, double scaleY, double scaleZ)
 {
 	init_mat_identite(m);
@@ -48,9 +57,9 @@ void	build_matrix_world(t_matrice *m)
 {
 	t_mat tmp;
 
-	tmp = mul_mat_mat(&(m->mat_rotateZ), &(m->mat_scale));
+	tmp = mul_mat_mat(&(m->mat_scale), &(m->mat_rotateX));
 	tmp = mul_mat_mat(&(m->mat_rotateY), &tmp);
-	tmp = mul_mat_mat(&(m->mat_rotateX), &tmp);
+	tmp = mul_mat_mat(&(m->mat_rotateZ), &tmp);
 	m->mat_world = mul_mat_mat(&(m->mat_translation), &tmp);
 }
 
@@ -133,13 +142,11 @@ t_mat	mul_mat_mat(t_mat *a, t_mat *b)
 	int j;
 	int k;
 
-	for (i = 0; i < 4; i++)
-	{
-		for (j = 0; j < 4; j++)
-		{
+	for (i = 0; i < 4; i++) {
+		for (j = 0; j < 4; j++) {
 			tmp.mat[i][j] = 0;
 			for (k = 0; k < 4; k++)
-				tmp.mat[i][j] += a->mat[i][k] * b->mat[k][j];
+			tmp.mat[i][j] += a->mat[i][k] * b->mat[k][j];
 		}
 	}
 	return (tmp);
@@ -236,96 +243,53 @@ int apply_shading(int color, double intensity)
     return (r << 16 | g << 8 | b);
 }
 
-void	display_cube(t_controller *core, t_vect object[8], int color[6])
+void	display_fdf(t_controller *core)
 {
-	int triangles[12][3] = { // verifier que les sommets des triangles soits bien tourner dans le sens des éguilles d'une montre.
-		{0, 3, 2}, {0, 2, 1},
-		{5, 6, 7}, {5, 7, 4},
-		{4, 7, 3}, {4, 3, 0},
-		{1, 2, 6}, {1, 6, 5},
-		{3, 7, 6}, {3, 6, 2},
-		{4, 0, 1}, {4, 1, 5}
-	};
-	t_vect projected[8];
-	for (int i = 0; i < 8; i++)
-	{
-		
-		projected[i] = mul_mat_vect(&(core->vars->matrice.mat_world), object[i]);
-		projected[i] = mul_mat_vect(&(core->vars->matrice.mat_view), projected[i]);
-		double real_z = projected[i].z;
+	for (int j = 0; j < core->vars->matrice.fdf.height; j++){
+		for (int i = 0; i < core->vars->matrice.fdf.width; i++){
+			t_vect r;
+			t_vect base;
+			base.w = 1;
+			base.x = i;
+			base.y = j;
+			base.z = core->vars->matrice.fdf.map[j][i];
+			t_vect proj1; t_vect proj2; t_vect proj3;
+			r = mul_mat_vect(&(core->vars->matrice.mat_world), base);
+			r = mul_mat_vect(&(core->vars->matrice.mat_view), r);
+			double w = r.w;
+			r = mul_mat_vect(&(core->vars->matrice.mat_projection), r);
+			div_projection(&(r), w);
+			ndc_screen_point(&(proj1), r, HEIGHT, WIDTH);
 
-		projected[i] = mul_mat_vect(&(core->vars->matrice.mat_projection), projected[i]);
-		double w = 1.0 / projected[i].w;
-		div_projection(&(projected[i]), w);
-		ndc_screen_point(&(projected[i]), projected[i], HEIGHT, WIDTH);
-		projected[i].z = real_z * w;
-
-	}
-	
-	for (int i = 0; i < 12; i++)
-	{
-		t_vect v0 = projected[triangles[i][0]];
-		t_vect v1 = projected[triangles[i][1]];
-		t_vect v2 = projected[triangles[i][2]];
-
-		t_vect line1 = sub(v1, v0); // calcul de la normale 
-		t_vect line2 = sub(v2, v0); 
-		t_vect normal = normalize(cross(line1, line2)); 
-
-		normal = normalize(mul_mat_vect(&(core->vars->matrice.mat_view), normal));
-		t_vect light_dir = normalize((t_vect){1, 1, -1, 0});
-		double intensity = fmax(0.0, dot(normal, light_dir));
-
-		// double dot_product = dot(normal, light_dir);
-		if (intensity <= 0) // back-face culling 
-			continue;
-
-		int shaded_color = apply_shading(color[(int)(0.5 * i)], intensity);
-		draw_triangle(v0, v1, v2, shaded_color, core);
+			if (i < core->vars->matrice.fdf.width - 1)
+			{
+				r = base;
+				r.x += 1;
+				r.z = core->vars->matrice.fdf.map[j][i + 1];
+				r = mul_mat_vect(&(core->vars->matrice.mat_world), r);
+				r = mul_mat_vect(&(core->vars->matrice.mat_view), r);
+				w = r.w;
+				r = mul_mat_vect(&(core->vars->matrice.mat_projection), r);
+				div_projection(&(r), w);
+				ndc_screen_point(&(proj2), r, HEIGHT, WIDTH);
+			}
+			if (j < core->vars->matrice.fdf.height - 1)
+			{
+				r = base;
+				r.y += 1;
+				r.z = core->vars->matrice.fdf.map[j + 1][i];
+				r = mul_mat_vect(&(core->vars->matrice.mat_world), r);
+				r = mul_mat_vect(&(core->vars->matrice.mat_view), r);
+				w = r.w;
+				r = mul_mat_vect(&(core->vars->matrice.mat_projection), r);
+				div_projection(&(r), w);
+				ndc_screen_point(&(proj3), r, HEIGHT, WIDTH);
+			}
+			
+			if (i < core->vars->matrice.fdf.width - 1 && proj1.x >= 0 && proj1.x < WIDTH && proj1.y >= 0 && proj1.y < HEIGHT && proj2.x >= 0 && proj2.x < WIDTH)
+				drawLine(proj1.x, proj1.y, proj2.x, proj2.y, BLANC, core);
+			if (j < core->vars->matrice.fdf.height - 1 && proj1.x >= 0 && proj1.x < WIDTH && proj1.y >= 0 && proj1.y < HEIGHT && proj3.y >= 0 && proj3.y < HEIGHT)
+				drawLine(proj1.x, proj1.y, proj3.x, proj3.y, BLANC, core);
+		}
 	}
 }
-
-// void	display_fdf(t_controller *core, int object[], int height, int width)
-// {
-// 	for (int i = 0; i < height; i++)
-// 	{
-// 		for (int j = 0; j < width; j++){
-// 			t_vect r;
-// 			t_vect base = object[i];
-// 			t_screen_point proj1; t_screen_point proj2; t_screen_point proj3;
-// 			r = mul_mat_vect(&(core->vars->matrice.mat_world), base);
-// 			r = mul_mat_vect(&(core->vars->matrice.mat_view), r);
-// 			r = mul_mat_vect(&(core->vars->matrice.mat_projection), r);
-// 			div_projection(&(r));
-// 			ndc_screen_point(&(proj1), &(r), HEIGHT, WIDTH);
-
-// 			if (i < (size - 1))
-// 			{
-// 				base = object[i];
-// 				base.x += 1;
-// 				base.z += 1;
-// 				r = mul_mat_vect(&(core->vars->matrice.mat_world), base);
-// 				r = mul_mat_vect(&(core->vars->matrice.mat_view), r);
-// 				r = mul_mat_vect(&(core->vars->matrice.mat_projection), r);
-// 				div_projection(&(r));
-// 				ndc_screen_point(&(proj2), &(r), HEIGHT, WIDTH);
-// 			}
-// 			if (j < 2)
-// 			{
-// 				c = base;
-// 				c.y += 1;
-// 				c.z = test[j + 1][i];
-// 				r = mul_mat_vect(&(core->vars->matrice.mat_world), &(c));
-// 				r = mul_mat_vect(&(core->vars->matrice.mat_view), &(r));
-// 				r = mul_mat_vect(&(core->vars->matrice.mat_projection), &(r));
-// 				div_projection(&(r));
-// 				ndc_screen_point(&(proj3), &(r), HEIGHT, WIDTH);
-// 			}
-			
-// 			if (i < 2 && proj1.x >= 0 && proj1.x < WIDTH && proj1.y >= 0 && proj1.y < HEIGHT && proj2.x >= 0 && proj2.x < WIDTH)
-// 				drawLine(proj1.x, proj1.y, proj2.x, proj2.y, BLANC, core);
-// 			if (j < 2 && proj1.x >= 0 && proj1.x < WIDTH && proj1.y >= 0 && proj1.y < HEIGHT && proj3.y >= 0 && proj3.y < HEIGHT)
-// 				drawLine(proj1.x, proj1.y, proj3.x, proj3.y, BLANC, core);
-// 		}
-// 	}
-// }

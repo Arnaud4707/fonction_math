@@ -20,11 +20,12 @@ int event_key_fonction(int key, t_controller* core)
 	if (key >= 65361 && key <= 65364)
 		arrow(key, core);
 
-	if (key == 113 || key == 100 || key == 97 || key == 101 || key == 119
-		|| key == 99 || key == 122 || key == 115)
+	if (key >= 97 && key <= 1122)
 	{
 			if (core->vars->id_fonction > 0 && core->vars->id_fonction < 6 )
 				change_param_algebre(key, core);
+			else if (core->vars->id_fonction == 16)
+				change_param_besier(key, core);
 			else
 				change_param_trigo(key, core);
 	}
@@ -34,7 +35,7 @@ int event_key_fonction(int key, t_controller* core)
 	else if (core->vars->id_fonction < -1)
 		core->vars->id_fonction = core->vars->nb_fonction;
 
-	// printf("key: %d, f: %d\n", key, core->vars->id_fonction);
+	printf("key: %d, f: %d\n", key, core->vars->id_fonction);
 	return(0);
 }
 
@@ -78,6 +79,35 @@ void	change_param_algebre(int key, t_controller* core)
 		core->vars->fonction.al.d -= step;
 	else if (key == 115)
 		core->vars->fonction.al.d += step;
+}
+
+void	change_param_besier(int key, t_controller* core)
+{
+	double	step = 0.25;
+	if (key == 97)
+		core->vars->fonction.besier.ax -= step;
+	else if (key == 101)
+		core->vars->fonction.besier.ax += step;
+	else if (key == 113)
+		core->vars->fonction.besier.ay -= step;
+	else if (key == 100)
+		core->vars->fonction.besier.ay += step;
+	else if (key == 119)
+		core->vars->fonction.besier.bx -= step;
+	else if (key == 99)
+		core->vars->fonction.besier.bx += step;
+	else if (key == 122)
+		core->vars->fonction.besier.by -= step;
+	else if (key == 115)
+		core->vars->fonction.besier.by += step;
+	else if (key == 120)
+		core->vars->fonction.besier.cx -= step;
+	else if (key == 118)
+		core->vars->fonction.besier.cx += step;
+	else if (key == 114)
+		core->vars->fonction.besier.cy -= step;
+	else if (key == 102)
+		core->vars->fonction.besier.cy += step;
 }
 
 void zoom(int a, t_controller* core)

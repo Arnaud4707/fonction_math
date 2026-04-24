@@ -5,9 +5,8 @@
 #define SCALE_XY 1
 #define SCALE_Z 1
 
-t_maps	*init_maps(char *file);
-void	free_maps(t_maps *map);
 void	display_cube(t_controller *core, t_vect object[8], int color[6]);
+void	display_fdf(t_controller *core);
 void	change_param_matrice(int key, t_controller* core);
 void	init_matrice(t_matrice* matrice);
 void	init_mat_identite(t_mat *mat);
@@ -19,6 +18,7 @@ void	init_projection_ortho(t_mat *m, double left, double right, double bottom,do
 void	init_project_perspective(t_mat *m, double fov, double aspect, double far, double near);
 void	build_matrix_view_look_at(t_mat *m, t_vect eye, t_vect target, t_vect up);
 void	build_matrix_view_fps(t_mat *view, t_camera *cam);
+void	build_projection_isometrique(t_matrice *m);
 void	init_projection_ortho(t_mat *m, double left, double right, double bottom,double top, double near, double far);
 void	build_matrix_world(t_matrice *m);
 void	move_forward_fps(t_camera* cam, double speed);
@@ -35,5 +35,16 @@ t_vect	get_right(t_vect forward);
 void	init_mat_translation(t_mat *m, double x, double y, double z);
 int		render_loop_matrice(void* core_);
 int		apply_shading(int color, double intensity);
+void	display_cube_triangles(t_controller *core, t_vect object[8], int color[6]);
+void	ndc_screen_point(t_vect* d, t_vect s, int h, int w);
+void	draw_triangle_flat(t_vertex v0, t_vertex v1, t_vertex v2, int color, t_controller *core);
+void	render_skybox(t_controller *core);
+int     **parse_fdf(const char *filename, int *out_rows, int *out_cols);
+
+static	inline	void	projection_iso(t_mat* transfo, t_vect* coord, t_screen_point* proj)
+{
+	proj->x = transfo->mat[0][0] * coord->x + transfo->mat[0][1] * coord->y + transfo->mat[0][2] * coord->z;
+	proj->y = transfo->mat[1][0] * coord->x + transfo->mat[1][1] * coord->y + transfo->mat[1][2] * coord->z;
+}
 
 #endif

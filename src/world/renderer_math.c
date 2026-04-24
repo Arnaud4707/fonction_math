@@ -57,13 +57,16 @@ int render_loop(void* core_)
 			core->vars->fonction.trigo.h, core->vars->fonction.trigo.k, core->vars); if (core->vars->fonction.trigo.b == 0) core->vars->fonction.trigo.b = 0.25;}
 	else if (core->vars->id_fonction == 15)
 		animation_sinus_concentrique(core->vars->fonction.trigo.a, core->vars->fonction.trigo.a, core->vars->fonction.trigo.b, core->vars);
+	else if (core->vars->id_fonction == 16)
+		f_courbe_besiers_3(core->vars->fonction.besier.ax, core->vars->fonction.besier.ay, core->vars->fonction.besier.bx,
+			core->vars->fonction.besier.by, core->vars->fonction.besier.cx, core->vars->fonction.besier.cy, core->vars);		
 
 	// tab_cercle[core->vars->id_fonction](2, 0, core->vars);
 
 	gettimeofday(&end_tv, NULL);
 	int t = diff_time(&start_tv, &end_tv);
 	__int16_t fps = 1000000 / t;
-	printf("time of prosses: %d x0: %d\n", t, core->vars->fonction.test.x0);
+	// printf("time of prosses: %d\n", t);
 	char buff[20];
 	if (t < 20000)
 	{

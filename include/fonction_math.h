@@ -6,6 +6,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <sys/time.h>
+#include <fcntl.h>
 #include "../mlx/mlx.h"
 #include "color.h"
 #include "struct_fonction.h"
@@ -67,6 +68,7 @@ void	zoom(int a, t_controller* core);
 void	arrow(int key, t_controller* core);
 void	change_param_trigo(int key, t_controller* core);
 void	change_param_algebre(int key, t_controller* core);
+void	change_param_besier(int key, t_controller* core);
 void	move(double dx, double dy, t_vars *vars);
 
 unsigned	long	diff_time(struct timeval* st, struct timeval* end);
@@ -176,7 +178,8 @@ void	f_diff_ax(double x_, double a, double c, t_vars *vars);
 void	f_clothoide(double x_, double y_, double k, t_vars *vars);
 void	f_diff_ax_plus_b(double x_, double a, double b, double c, t_vars *vars);
 
-void    grille_point(t_controller* core);
+void	f_courbe_besiers_2(double ax, double ay, double bx, double by, t_vars *vars);
+void	f_courbe_besiers_3(double ax, double ay, double bx, double by, double cx, double cy, t_vars *vars);
 void    animation_sinus(double x_, double a, double b, double h, double k, t_vars *vars);
 void    animation_sinus_concentrique(double a, double r, double thita, t_vars *vars);
 
@@ -339,6 +342,23 @@ static inline	void	affiche_param(t_controller* core)
 		mlx_string_put(core->mlx, core->vars->win, 0, 100, 0x00000000, buff);
 		sprintf(buff, "thita: %f     Touche Q - / D +",core->vars->fonction.trigo.b);
 		mlx_string_put(core->mlx, core->vars->win, 0, 120, 0x00000000, buff);
+	}
+	else if (core->vars->id_fonction == 16)
+	{
+		sprintf(buff, "    Fonction courbe de besier:M(t)= (1-t)^2a + 2t(1 - t)b + t^2c");
+		mlx_string_put(core->mlx, core->vars->win, 0, 70, 0x00000000, buff);
+		sprintf(buff, "ax: %f     Touche A - / E +",core->vars->fonction.besier.ax);
+		mlx_string_put(core->mlx, core->vars->win, 0, 100, 0x00000000, buff);
+		sprintf(buff, "ay: %f     Touche Q - / D +",core->vars->fonction.besier.ay);
+		mlx_string_put(core->mlx, core->vars->win, 0, 120, 0x00000000, buff);
+		sprintf(buff, "bx: %f     Touche W - / C +",core->vars->fonction.besier.bx);
+		mlx_string_put(core->mlx, core->vars->win, 0, 140, 0x00000000, buff);
+		sprintf(buff, "by: %f     Touche Z - / S +",core->vars->fonction.besier.by);
+		mlx_string_put(core->mlx, core->vars->win, 0, 160, 0x00000000, buff);
+		sprintf(buff, "cx: %f     Touche X - / V +",core->vars->fonction.besier.cx);
+		mlx_string_put(core->mlx, core->vars->win, 0, 180, 0x00000000, buff);
+		sprintf(buff, "cy: %f     Touche R - / F +",core->vars->fonction.besier.cy);
+		mlx_string_put(core->mlx, core->vars->win, 0, 200, 0x00000000, buff);
 	}
 }
 

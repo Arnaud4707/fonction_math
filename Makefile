@@ -26,8 +26,8 @@ SRC_PATH = src/
 
 SRC_DIR = utils.c world/trigonometrie_math.c world/renderer_math.c world/functions_math.c \
 		world/events_math.c world/init_math.c world/animation_math.c \
-		world_2/events_matrix.c world_2/free_matrix.c world_2/init_matrix.c \
-		world_2/matrice_matrix.c world_2/renderer_matrix.c \
+		world_2/events_matrix.c world_2/init_matrix.c world_2/matrice_matrix.c \
+		world_2/renderer_matrix.c world_2/shader_matrix.c world_2/skybox.c world_2/fdf.c\
 		world_3/game_of_life.c world_3/renderer_game_of_life.c \
 		world_3/events_game_of_life.c world_3/init_game_of_life.c
 

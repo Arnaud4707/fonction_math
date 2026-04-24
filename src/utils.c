@@ -34,7 +34,7 @@ void	vars_init(t_vars *vars, t_controller *core)
 										&(vars->img->bpp), &(vars->img->line_length), &(vars->img->endian));
 	init_function_math(core);
 	init_matrice(&(core->vars->matrice));
-	init_map_game_of_life(5, core);
+	init_map_game_of_life(TAIL, core);
 }
 
 unsigned long diff_time(struct timeval *st, struct timeval *end)

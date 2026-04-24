@@ -40,30 +40,22 @@ void	display_map_game_of_life(t_controller *core)
 void	generation_game_of_life(t_game_of_life* gol)
 {
 	int v = 0;
-	int endY = gol->height - 1;
-	int endX = gol->width - 1;
 
 	char tab[gol->height][gol->width];
 
 	for (int y = 0; y < gol->height; y++){
 		for (int x = 0; x < gol->width; x++){
 			v = 0;
-			if (x != 0 && gol->map[y][x - 1] == 'A')
-				v++;
-			if (y != 0 && gol->map[y - 1][x] == 'A')
-				v++;
-			if (x != endX && gol->map[y][x + 1] == 'A')
-				v++;
-			if (y != endY && gol->map[y + 1][x] == 'A')
-				v++;
-			if (x != 0 && y != 0 && gol->map[y - 1][x - 1] == 'A')
-				v++;
-			if (x != endX && y != 0 && gol->map[y - 1][x + 1] == 'A')
-				v++;
-			if (x != 0 && y != endY && gol->map[y + 1][x - 1] == 'A')
-				v++;
-			if (x != endX && y != endY && gol->map[y + 1][x + 1] == 'A')
-				v++;
+			for (int dy = -1; dy <= 1; dy++) {
+				for (int dx = -1; dx <= 1; dx++) {
+					if (dx == 0 && dy == 0)
+						continue;
+					int nx = (x + dx + gol->width) % gol->width;
+					int ny = (y + dy + gol->height) % gol->height;
+					if (gol->map[ny][nx] == 'A')
+						v++;
+				}
+			}
 			if (gol->map[y][x] == 'A'){
 				if (v != 2 && v != 3)
 				{

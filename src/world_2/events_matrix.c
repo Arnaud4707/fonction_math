@@ -123,6 +123,18 @@ void	change_param_matrice(int key, t_controller* core)
 		init_mat_rotate_z(&(core->vars->matrice.mat_rotateZ), core->vars->matrice.angles.angleZ);
 		build_matrix_world(&(core->vars->matrice));
 	}
+	else if (key == 112)
+	{
+		core->vars->matrice.scale.scaleZ += 0.1;
+		init_mat_scale(&(core->vars->matrice.mat_scale), core->vars->matrice.scale.scaleXY, core->vars->matrice.scale.scaleXY, core->vars->matrice.scale.scaleZ);
+		build_matrix_world(&(core->vars->matrice));
+	}
+	else if (key == 109)
+	{
+		core->vars->matrice.scale.scaleZ -= 0.1;
+		init_mat_scale(&(core->vars->matrice.mat_scale), core->vars->matrice.scale.scaleXY, core->vars->matrice.scale.scaleXY, core->vars->matrice.scale.scaleZ);
+		build_matrix_world(&(core->vars->matrice));
+	}
 	if (core->vars->matrice.mode == 1)
 		init_projection_ortho(&(core->vars->matrice.mat_projection), -10, 10, -10, 10, 0.1, 100);
 	else
